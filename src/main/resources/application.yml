@@ -10,3 +10,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+
+jwt:
+  secret:
+      key: ${JWT_KEY}
