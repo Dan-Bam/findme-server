@@ -1,10 +1,7 @@
 package com.project.findme.domain.user.entity;
 
 import com.project.findme.domain.user.type.Role;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,7 +11,7 @@ import java.util.List;
 @Builder
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
     @Id
