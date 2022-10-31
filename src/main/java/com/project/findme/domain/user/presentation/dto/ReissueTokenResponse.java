@@ -1,4 +1,4 @@
-package com.project.findme.domain.user.presentation.dto.response;
+package com.project.findme.domain.user.presentation.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
