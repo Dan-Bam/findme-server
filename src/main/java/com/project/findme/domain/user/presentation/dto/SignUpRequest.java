@@ -1,4 +1,4 @@
-package com.project.findme.domain.user.presentation.dto.request;
+package com.project.findme.domain.user.presentation.dto;
 
 import com.project.findme.domain.user.entity.User;
 import com.project.findme.domain.user.type.Role;
@@ -10,7 +10,7 @@ import java.util.Collections;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignUpDto {
+public class SignUpRequest {
 
     private String id;
 

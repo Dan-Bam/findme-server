@@ -1,4 +1,4 @@
-package com.project.findme.domain.user.presentation.dto.response;
+package com.project.findme.domain.user.presentation.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignInResponseDto {
+public class SignInResponse {
 
     private String accessToken;
 
