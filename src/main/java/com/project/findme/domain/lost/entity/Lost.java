@@ -33,9 +33,6 @@ public class Lost {
     @CollectionTable(name = "tags", joinColumns = @JoinColumn(name = "userId"))
     private List<String> tags = new ArrayList<>();
 
-    @OneToMany(mappedBy = "lostId")
-    private List<LostImage> lostImages = new ArrayList<>();
-
     private boolean safeTransaction;
 
 }
