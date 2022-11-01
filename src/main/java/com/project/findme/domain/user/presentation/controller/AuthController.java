@@ -1,9 +1,9 @@
 package com.project.findme.domain.user.presentation.controller;
 
-import com.project.findme.domain.user.presentation.dto.SignInDtoRequest;
-import com.project.findme.domain.user.presentation.dto.SignUpRequest;
 import com.project.findme.domain.user.presentation.dto.ReissueTokenResponse;
+import com.project.findme.domain.user.presentation.dto.SignInRequest;
 import com.project.findme.domain.user.presentation.dto.SignInResponse;
+import com.project.findme.domain.user.presentation.dto.SignUpRequest;
 import com.project.findme.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,8 +26,8 @@ public class AuthController {
     }
 
     @PostMapping("signin")
-    public ResponseEntity<SignInResponse> signIn(@RequestBody @Valid SignInDtoRequest signInDto) {
-        SignInResponse token = userService.signIn(signInDto);
+    public ResponseEntity<SignInResponse> signIn(@RequestBody @Valid SignInRequest signInRequest) {
+        SignInResponse token = userService.signIn(signInRequest);
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
