@@ -21,4 +21,5 @@ public class LostImage {
     private Lost lost;
 
     private String imageUrl;
+
 }
