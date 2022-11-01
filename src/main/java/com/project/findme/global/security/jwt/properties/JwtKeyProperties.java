@@ -1,19 +1,15 @@
-package com.project.findme.global.security.jwt;
+package com.project.findme.global.security.jwt.properties;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Getter @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Component
+@RequiredArgsConstructor
 @ConfigurationProperties(value = "jwt.secret")
 public class JwtKeyProperties {
 
-    private String key;
+    private final String key;
 
 }
