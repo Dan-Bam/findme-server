@@ -1,5 +1,6 @@
 package com.project.findme.global.security.jwt;
 
+import com.project.findme.global.security.jwt.properties.JwtKeyProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
