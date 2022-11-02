@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8082
 
 spring:
   datasource:
@@ -9,23 +9,30 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+  redis:
+    host: localhost
+    port: 6379
 
 jwt:
   secret:
       key: ${JWT_KEY}
 
+coolsms:
+  access: ${COOLSMS_ACCESS}
+  secret: ${COOLSMS_SECRET}
+
 cloud:
   aws:
     credentials:
-      accessKey: ${S3_ACCESS}
-      secretKey: ${S3_SECRET}
+        accessKey: ${S3_ACCESS}
+        secretKey: ${S3_SECRET}
     s3:
       bucket: ${S3_BUCKET}
     region:
       static: ${S3_REGION}
     stack:
-      auto: ${S3_AUTO}
+      auto: false
 
 logging:
   level:
