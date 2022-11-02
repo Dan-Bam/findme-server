@@ -6,10 +6,11 @@ import org.springframework.stereotype.Component;
 
 @Getter @Setter
 @Component
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @ConfigurationProperties(value = "jwt.secret")
 public class JwtKeyProperties {
 
-    private final String key;
+    private String key;
 
 }
