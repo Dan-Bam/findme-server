@@ -16,6 +16,11 @@ public enum ErrorCode {
 
     // TOKEN
     REFRESH_TOKEN_EXPIRED("refreshToken이 만료되었습니다.", 400),
+
+
+    // MESSAGE
+    AUTH_KEY_NOT_CORRECT("인증키가 일치하지 않습니다.", 400),
+    PHONE_NUMBER_NOT_FOUND("핸드폰 번호를 찾을 수 없습니다.", 404),
     ;
 
     private final String msg;
