@@ -14,10 +14,12 @@ import com.project.findme.domain.user.service.UserService;
 import com.project.findme.domain.user.util.UserUtil;
 import com.project.findme.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -31,7 +33,10 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     public void signUp(SignUpRequest signUpRequest) {
 
-        userRepository.findById(signUpRequest.getId()).orElseThrow(() -> new DuplicateIdException("중복된 아이디 입니다."));
+        if(userRepository.findById(signUpRequest.getId()).isPresent()) {
+            throw new DuplicateIdException("중복된 아이디 입니다.");
+        }
+
         userRepository.save(signUpRequest.toEntity(passwordEncoder.encode(signUpRequest.getPassword())));
 
     }
@@ -40,7 +45,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     public SignInResponse signIn(SignInRequest signInRequest) {
 
-        User user = userRepository.findById(signInRequest.getId()).orElseThrow(() -> new UserNotFoundException("아이디를 찾을 수 없습니다다."));
+        User user = userRepository.findById(signInRequest.getId()).orElseThrow(() -> new UserNotFoundException("아이디를 찾을 수 없습니다."));
         if (!passwordEncoder.matches(signInRequest.getPassword(), user.getPassword())) {
             throw new PasswordNotMatchException("비밀번호가 일치하지 않습니다.");
         }
