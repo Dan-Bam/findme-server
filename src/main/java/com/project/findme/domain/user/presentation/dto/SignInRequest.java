@@ -14,10 +14,10 @@ import javax.validation.constraints.NotBlank;
 public class SignInRequest {
 
 
-    @NotBlank(message = "아이디를 입력해주세요")
+    @NotBlank(message = "아이디가 입력되지 않았습니다")
     private String id;
 
-    @NotBlank(message = "비밀번호를 입력해주세요")
+    @NotBlank(message = "비밀번호가 입력되지 않았습니다")
     private String password;
 
 }

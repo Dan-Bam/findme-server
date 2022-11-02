@@ -4,6 +4,7 @@ import com.project.findme.domain.user.entity.User;
 import com.project.findme.domain.user.type.Role;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Collections;
 
 @Getter
@@ -12,12 +13,16 @@ import java.util.Collections;
 @NoArgsConstructor
 public class SignUpRequest {
 
+    @NotBlank(message = "아이디가 입력되지 않았습니다")
     private String id;
 
+    @NotBlank(message = "비밀번호가 입력되지 않았습니다")
     private String password;
 
+    @NotBlank(message = "이름이 입력되지 않았습니다")
     private String userName;
 
+    @NotBlank(message = "주소가 입력되지 않았습니다")
     private String address;
 
     public User toEntity(String password) {
