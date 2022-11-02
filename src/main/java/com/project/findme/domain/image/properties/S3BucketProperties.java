@@ -7,10 +7,11 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @ConfigurationProperties(value = "cloud.aws.s3")
 public class S3BucketProperties {
 
-    private final String bucket;
+    private String bucket;
 
 }
