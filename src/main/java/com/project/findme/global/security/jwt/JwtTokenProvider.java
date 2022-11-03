@@ -7,12 +7,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
+@Log4j2
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
@@ -35,11 +37,11 @@ public class JwtTokenProvider {
         return Keys.hmacShaKeyFor(keyByte);
     }
 
-    public Claims extractAllClaims(String token) {
+    public Claims extractAllClaims(String token) throws ExpiredJwtException, IllegalStateException, UnsupportedOperationException {
         return Jwts.parserBuilder()
                 .setSigningKey(getSignInKey(jwtKeyProperties.getKey()))
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
     }
 
