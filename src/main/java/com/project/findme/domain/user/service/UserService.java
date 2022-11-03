@@ -11,4 +11,5 @@ public interface UserService {
     SignInResponse signIn(SignInRequest signInRequest);
     ReissueTokenResponse reissueToken(String token);
     void logout();
+
 }

@@ -1,10 +1,7 @@
 package com.project.findme.domain.user.service.Impl;
 
 import com.project.findme.domain.user.entity.User;
-import com.project.findme.domain.user.exception.DuplicateIdException;
-import com.project.findme.domain.user.exception.PasswordNotMatchException;
-import com.project.findme.domain.user.exception.RefreshTokenExpiredException;
-import com.project.findme.domain.user.exception.UserNotFoundException;
+import com.project.findme.domain.user.exception.*;
 import com.project.findme.domain.user.presentation.dto.ReissueTokenResponse;
 import com.project.findme.domain.user.presentation.dto.SignInRequest;
 import com.project.findme.domain.user.presentation.dto.SignInResponse;
@@ -45,7 +42,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     public SignInResponse signIn(SignInRequest signInRequest) {
 
-        User user = userRepository.findById(signInRequest.getId()).orElseThrow(() -> new UserNotFoundException("아이디를 찾을 수 없습니다."));
+        User user = userRepository.findById(signInRequest.getId()).orElseThrow(() -> new IdNotFoundException("아이디를 찾을 수 없습니다."));
         if (!passwordEncoder.matches(signInRequest.getPassword(), user.getPassword())) {
             throw new PasswordNotMatchException("비밀번호가 일치하지 않습니다.");
         }
@@ -84,6 +81,5 @@ public class UserServiceImpl implements UserService {
         User user = userUtil.currentUser();
         user.updateRefreshToken(null);
     }
-
 
 }
