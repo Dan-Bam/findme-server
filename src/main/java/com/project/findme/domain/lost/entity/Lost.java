@@ -1,6 +1,5 @@
 package com.project.findme.domain.lost.entity;
 
-import com.project.findme.domain.image.entity.LostImage;
 import com.project.findme.domain.user.entity.User;
 import lombok.*;
 

@@ -2,7 +2,7 @@ package com.project.findme.domain.lost.service;
 
 import com.project.findme.domain.image.entity.LostImage;
 import com.project.findme.domain.lost.entity.Lost;
-import com.project.findme.domain.lost.prentation.dto.CreateLostRequest;
+import com.project.findme.domain.lost.presentation.dto.CreateLostRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

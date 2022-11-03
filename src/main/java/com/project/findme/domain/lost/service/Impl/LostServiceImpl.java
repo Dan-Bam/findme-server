@@ -4,7 +4,7 @@ import com.project.findme.domain.image.entity.LostImage;
 import com.project.findme.domain.image.repository.LostImageRepository;
 import com.project.findme.domain.image.service.S3Service;
 import com.project.findme.domain.lost.entity.Lost;
-import com.project.findme.domain.lost.prentation.dto.CreateLostRequest;
+import com.project.findme.domain.lost.presentation.dto.CreateLostRequest;
 import com.project.findme.domain.lost.repository.LostRepository;
 import com.project.findme.domain.lost.service.LostService;
 import com.project.findme.domain.user.entity.User;
