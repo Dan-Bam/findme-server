@@ -2,11 +2,8 @@ package com.project.findme.global.exception.handler;
 
 import com.project.findme.domain.message.exception.AuthKeyNotMatchException;
 import com.project.findme.domain.message.exception.PhoneNumberNotFound;
-import com.project.findme.domain.user.exception.PasswordNotMatchException;
-import com.project.findme.domain.user.exception.RefreshTokenExpiredException;
-import com.project.findme.domain.user.exception.UserNotFoundException;
+import com.project.findme.domain.user.exception.*;
 import com.project.findme.global.exception.ErrorResponse;
-import com.project.findme.domain.user.exception.DuplicateIdException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -23,6 +20,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
 
+    @ExceptionHandler(IdNotFoundException.class)
+    public ResponseEntity<ErrorResponse> IdNotFoundException(IdNotFoundException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> UserNotFoundException(UserNotFoundException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());

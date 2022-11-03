@@ -10,7 +10,8 @@ public enum ErrorCode {
 
     // USER
     DUPLICATE_ID_EXCEPTION("중복된 이메일입니다.", 400),
-    USER_NOT_FOUND("아이디를 찾을 수 없습니다.", 404),
+    ID_NOT_FOUND("아이디를 찾을 수 없습니다.", 404),
+    USER_NOT_FOUND("사용자를 찾을 수 없습니다", 404),
     PASSWORD_NOT_MATCH("비밀번호가 일치하지 않습니다.", 400),
 
 
