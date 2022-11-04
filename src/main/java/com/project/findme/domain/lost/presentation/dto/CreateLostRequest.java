@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter @Builder
@@ -24,9 +25,10 @@ public class CreateLostRequest {
     @NotBlank(message = "장소가 선택되지 않았습니다")
     private String place;
 
+    @NotNull(message = "태그가 입력되지 않았습니다")
     private List<String> tags;
 
-//    @NotBlank(message = "안심거래가 선택되지 않았습니다")
+    @NotNull(message = "안심거래가 선택되지 않았습니다")
     private boolean safeTransaction;
 
     public Lost toEntity(User user) {
