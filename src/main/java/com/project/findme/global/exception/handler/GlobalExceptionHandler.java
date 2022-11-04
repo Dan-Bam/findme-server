@@ -1,5 +1,6 @@
 package com.project.findme.global.exception.handler;
 
+import com.project.findme.domain.lost.exception.LostNotFoundException;
 import com.project.findme.domain.message.exception.AuthKeyNotMatchException;
 import com.project.findme.domain.message.exception.PhoneNumberNotFound;
 import com.project.findme.domain.user.exception.*;
@@ -55,6 +56,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
 
+    @ExceptionHandler(LostNotFoundException.class)
+    public ResponseEntity<ErrorResponse> LostNotFoundException(LostNotFoundException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> ProcessValidationException(MethodArgumentNotValidException e) {
@@ -62,7 +68,6 @@ public class GlobalExceptionHandler {
         StringBuilder stringBuilder = new StringBuilder();
 
         bindingResult.getFieldErrors().forEach(it -> {
-            stringBuilder.append(it.getField()).append(" : ");
             stringBuilder.append(it.getDefaultMessage());
             stringBuilder.append(", ");
         });
