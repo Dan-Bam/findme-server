@@ -1,6 +1,7 @@
-package com.project.findme.global.security.jwt;
+package com.project.findme.global.filter;
 
 import com.project.findme.global.security.authentication.AuthDetailService;
+import com.project.findme.global.security.jwt.JwtTokenProvider;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
