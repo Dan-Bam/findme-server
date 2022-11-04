@@ -1,5 +1,6 @@
 package com.project.findme.domain.image.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.findme.domain.lost.entity.Lost;
 import lombok.*;
 
@@ -16,8 +17,9 @@ public class LostImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long imageId;
 
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "lostId")
+    @JoinColumn(name = "lostId", nullable = false)
     private Lost lost;
 
     private String imageUrl;

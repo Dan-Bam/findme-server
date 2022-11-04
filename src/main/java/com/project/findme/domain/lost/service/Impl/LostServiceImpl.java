@@ -4,7 +4,9 @@ import com.project.findme.domain.image.entity.LostImage;
 import com.project.findme.domain.image.repository.LostImageRepository;
 import com.project.findme.domain.image.service.S3Service;
 import com.project.findme.domain.lost.entity.Lost;
+import com.project.findme.domain.lost.exception.LostNotFoundException;
 import com.project.findme.domain.lost.presentation.dto.CreateLostRequest;
+import com.project.findme.domain.lost.presentation.dto.LostResponseDto;
 import com.project.findme.domain.lost.repository.LostRepository;
 import com.project.findme.domain.lost.service.LostService;
 import com.project.findme.domain.user.entity.User;
@@ -44,7 +46,25 @@ public class LostServiceImpl implements LostService {
     public LostImage saveToUrl(Lost lost, String uploadFileUrl) {
         return LostImage.builder()
                 .lost(lost)
-                .imageUrl(uploadFileUrl)
+                .imageUrl("https://findme-s3-bucket.s3.ap-northeast-2.amazonaws.com/" + uploadFileUrl)
+                .build();
+    }
+
+    @Override
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public LostResponseDto findById(Long lostId) {
+        Lost lost = lostRepository.findById(lostId)
+                .orElseThrow(() -> new LostNotFoundException("분실물을 찾을 수 없습니다."));
+
+        List<LostImage> imageByLostId = lostImageRepository.findLostImageByLost_LostId(lostId);
+
+        return LostResponseDto.builder()
+                .title(lost.getTitle())
+                .description(lost.getDescription())
+                .place(lost.getPlace())
+                .lostImages(imageByLostId)
+                .tags(lost.getTags())
+                .safeTransaction(lost.isSafeTransaction())
                 .build();
     }
 
