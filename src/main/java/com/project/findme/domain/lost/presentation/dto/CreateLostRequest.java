@@ -1,6 +1,7 @@
 package com.project.findme.domain.lost.presentation.dto;
 
 import com.project.findme.domain.lost.entity.Lost;
+import com.project.findme.domain.lost.type.Category;
 import com.project.findme.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +26,9 @@ public class CreateLostRequest {
     @NotBlank(message = "장소가 선택되지 않았습니다")
     private String place;
 
+    @NotNull(message = "카테고리가 입력되지 않았습니다")
+    private Category category;
+
     @NotNull(message = "태그가 입력되지 않았습니다")
     private List<String> tags;
 
@@ -37,6 +41,7 @@ public class CreateLostRequest {
                 .title(title)
                 .description(description)
                 .place(place)
+                .category(category)
                 .tags(tags)
                 .safeTransaction(safeTransaction)
                 .build();
