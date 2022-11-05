@@ -2,7 +2,6 @@ package com.project.findme.global.filter;
 
 import com.project.findme.global.security.authentication.AuthDetailService;
 import com.project.findme.global.security.jwt.JwtTokenProvider;
-import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,19 +30,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String accessToken = request.getHeader("Authorization");
 
         if (accessToken != null) {
-            String id = accessTokenExtractId(accessToken);
+            String id = jwtTokenProvider.extractAllClaims(accessToken).getSubject();
             registerUserInfoSecurityContext(id, request);
         }
 
         filterChain.doFilter(request, response);
-    }
-
-    public String accessTokenExtractId(String accessToken) {
-        try {
-            return jwtTokenProvider.extractAllClaims(accessToken).getSubject();
-        } catch (JwtException e) {
-            throw new RuntimeException();
-        }
     }
 
     public void registerUserInfoSecurityContext(String id, HttpServletRequest request) {
