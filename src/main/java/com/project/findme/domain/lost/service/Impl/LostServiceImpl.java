@@ -36,7 +36,7 @@ public class LostServiceImpl implements LostService {
     public void createLost(CreateLostRequest createLostRequest, List<MultipartFile> multipartFiles) {
 
         User user = userUtil.currentUser();
-        List<String> uploadFile = s3Service.upload(multipartFiles, "/lost");
+        List<String> uploadFile = s3Service.upload(multipartFiles, "lost/");
         Lost lost = lostRepository.save(createLostRequest.toEntity(user));
 
         uploadFile.forEach(file -> {
@@ -50,7 +50,7 @@ public class LostServiceImpl implements LostService {
     public LostImage saveToUrl(Lost lost, String uploadFileUrl) {
         return LostImage.builder()
                 .lost(lost)
-                .imageUrl("https://findme-s3-bucket.s3.ap-northeast-2.amazonaws.com/" + uploadFileUrl)
+                .imageUrl("https://findme-s3-bucket.s3.ap-northeast-2.amazonaws.com/lost/" + uploadFileUrl)
                 .build();
     }
 
@@ -66,6 +66,7 @@ public class LostServiceImpl implements LostService {
                 .title(lost.getTitle())
                 .description(lost.getDescription())
                 .place(lost.getPlace())
+                .category(lost.getCategory())
                 .lostImages(imageByLostId)
                 .tags(lost.getTags())
                 .safeTransaction(lost.isSafeTransaction())
@@ -79,6 +80,7 @@ public class LostServiceImpl implements LostService {
                 .title(lost.getTitle())
                 .description(lost.getDescription())
                 .place(lost.getPlace())
+                .category(lost.getCategory())
                 .tags(lost.getTags())
                 .lostImages(lostImageRepository.findLostImageByLost_LostId(lost.getLostId()))
                 .safeTransaction(lost.isSafeTransaction())

@@ -38,6 +38,4 @@ public class Lost {
 
     private boolean safeTransaction;
 
-
-
 }
