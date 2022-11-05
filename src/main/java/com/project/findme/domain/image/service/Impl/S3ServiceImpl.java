@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.*;
 import com.project.findme.domain.image.properties.S3BucketProperties;
 import com.project.findme.domain.image.service.S3Service;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class S3ServiceImpl implements S3Service {
@@ -34,7 +36,7 @@ public class S3ServiceImpl implements S3Service {
             objectMetadata.setContentType(file.getContentType());
 
             try(InputStream inputStream = file.getInputStream()) {
-                amazonS3.putObject(new PutObjectRequest(s3BucketProperties.getBucket(), fileName, inputStream, objectMetadata)
+                amazonS3.putObject(new PutObjectRequest(s3BucketProperties.getBucket(), dirName + fileName, inputStream, objectMetadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead));
             } catch (IOException e) {
                 throw new IllegalStateException("파일 업로드에 실패했습니다");
