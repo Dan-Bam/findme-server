@@ -36,4 +36,12 @@ public class User {
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
+
+    public void updateUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void updateAddress(String address) {
+        this.address = address;
+    }
 }

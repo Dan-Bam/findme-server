@@ -30,8 +30,8 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST,
-                        "/auth/signup",
-                        "/auth/signin",
+                        "/signup/**",
+                        "/signin",
                         "/message"
                 ).permitAll()
                 .antMatchers(HttpMethod.GET,

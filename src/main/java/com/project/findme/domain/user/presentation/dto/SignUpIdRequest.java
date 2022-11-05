@@ -11,7 +11,7 @@ import java.util.Collections;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignUpRequest {
+public class SignUpIdRequest {
 
     @NotBlank(message = "아이디가 입력되지 않았습니다")
     private String id;
@@ -19,18 +19,10 @@ public class SignUpRequest {
     @NotBlank(message = "비밀번호가 입력되지 않았습니다")
     private String password;
 
-    @NotBlank(message = "이름이 입력되지 않았습니다")
-    private String userName;
-
-    @NotBlank(message = "주소가 입력되지 않았습니다")
-    private String address;
-
     public User toEntity(String password) {
         return User.builder()
                 .id(id)
                 .password(password)
-                .userName(userName)
-                .address(address)
                 .roles(Collections.singletonList(Role.ROLE_USER))
                 .build();
     }
