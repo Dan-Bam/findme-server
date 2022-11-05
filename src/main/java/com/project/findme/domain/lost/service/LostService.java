@@ -13,5 +13,7 @@ public interface LostService {
     void createLost(CreateLostRequest createLostRequest, List<MultipartFile> multipartFileList);
     LostImage saveToUrl(Lost lost, String uploadFileUrl);
     LostResponseDto findById(Long lostId);
+    List<LostResponseDto> findAll();
+    List<LostResponseDto> findByCategory(String category);
 
 }

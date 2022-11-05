@@ -9,15 +9,19 @@ import com.project.findme.domain.lost.presentation.dto.CreateLostRequest;
 import com.project.findme.domain.lost.presentation.dto.LostResponseDto;
 import com.project.findme.domain.lost.repository.LostRepository;
 import com.project.findme.domain.lost.service.LostService;
+import com.project.findme.domain.lost.type.Category;
 import com.project.findme.domain.user.entity.User;
 import com.project.findme.domain.user.util.UserUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class LostServiceImpl implements LostService {
@@ -66,6 +70,34 @@ public class LostServiceImpl implements LostService {
                 .tags(lost.getTags())
                 .safeTransaction(lost.isSafeTransaction())
                 .build();
+    }
+
+    @Override
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public List<LostResponseDto> findAll() {
+        return lostRepository.findAll().stream().map(lost -> LostResponseDto.builder()
+                .title(lost.getTitle())
+                .description(lost.getDescription())
+                .place(lost.getPlace())
+                .tags(lost.getTags())
+                .lostImages(lostImageRepository.findLostImageByLost_LostId(lost.getLostId()))
+                .safeTransaction(lost.isSafeTransaction())
+                .build()).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public List<LostResponseDto> findByCategory(String category) {
+        return lostRepository.findLostByCategory(Category.findByName(category)).stream().map(lost -> LostResponseDto.builder()
+                .id(lost.getLostId())
+                .title(lost.getTitle())
+                .description(lost.getDescription())
+                .place(lost.getPlace())
+                .category(lost.getCategory())
+                .tags(lost.getTags())
+                .lostImages(lostImageRepository.findLostImageByLost_LostId(lost.getLostId()))
+                .safeTransaction(lost.isSafeTransaction())
+                .build()).collect(Collectors.toList());
     }
 
 

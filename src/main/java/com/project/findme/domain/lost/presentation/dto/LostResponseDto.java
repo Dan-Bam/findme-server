@@ -1,6 +1,7 @@
 package com.project.findme.domain.lost.presentation.dto;
 
 import com.project.findme.domain.image.entity.LostImage;
+import com.project.findme.domain.lost.type.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,6 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 public class LostResponseDto {
 
+    private Long id;
+
     private String title;
 
     private String description;
@@ -20,6 +23,8 @@ public class LostResponseDto {
     private String place;
 
     private List<LostImage> lostImages;
+
+    private Category category;
 
     private List<String> tags;
 

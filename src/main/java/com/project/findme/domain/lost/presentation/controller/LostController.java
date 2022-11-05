@@ -28,9 +28,20 @@ public class LostController {
     }
 
     @GetMapping("{lostId}")
-    public ResponseEntity<LostResponseDto> findById(@PathVariable("lostId") Long lostId) {
+    public ResponseEntity<LostResponseDto> findByLostId(@PathVariable("lostId") Long lostId) {
         LostResponseDto responseDto = lostService.findById(lostId);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
+    @GetMapping("findAll")
+    public ResponseEntity<List<LostResponseDto>> findLostAll() {
+        List<LostResponseDto> responseDto = lostService.findAll();
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<LostResponseDto>> findByCategory(@RequestParam("category") String category) {
+        List<LostResponseDto> responseDto = lostService.findByCategory(category);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
 }
