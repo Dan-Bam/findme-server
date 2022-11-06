@@ -29,16 +29,8 @@ public class SecurityConfig {
                 .httpBasic().disable();
         http
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,
-                        "/signup/**",
-                        "/signin",
-                        "/message"
-                ).permitAll()
-                .antMatchers(HttpMethod.GET,
-                        "/message"
-                ).permitAll()
-                .antMatchers(HttpMethod.PATCH,
-                        "refresh"
+                .antMatchers(
+                        "/auth/**"
                 ).permitAll()
                 .anyRequest().authenticated();
 
