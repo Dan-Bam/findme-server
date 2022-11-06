@@ -10,5 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReissueTokenResponse {
 
+    private String newAccessToken;
     private String newRefreshToken;
+
 }
