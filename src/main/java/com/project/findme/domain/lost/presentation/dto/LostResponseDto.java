@@ -24,7 +24,7 @@ public class LostResponseDto {
 
     private List<LostImage> lostImages;
 
-    private Category category;
+    private String category;
 
     private List<String> tags;
 
