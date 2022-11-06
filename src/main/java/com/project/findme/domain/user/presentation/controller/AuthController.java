@@ -35,7 +35,7 @@ public class AuthController {
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
-    @PatchMapping
+    @PatchMapping("reissue")
     public ResponseEntity<ReissueTokenResponse> reissueToken(@RequestHeader("RefreshToken") String refreshToken) {
         ReissueTokenResponse newToken = userService.reissueToken(refreshToken);
         return new ResponseEntity<>(newToken, HttpStatus.OK);
