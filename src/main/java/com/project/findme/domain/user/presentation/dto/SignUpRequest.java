@@ -19,6 +19,9 @@ public class SignUpRequest {
     @NotBlank(message = "비밀번호가 입력되지 않았습니다")
     private String password;
 
+    @NotBlank(message = "휴대폰 번호가 입력되지 않았습니다.")
+    private String phoneNumber;
+
     @NotBlank(message = "이름이 입력되지 않았습니다")
     private String userName;
 
@@ -29,6 +32,7 @@ public class SignUpRequest {
         return User.builder()
                 .id(id)
                 .password(password)
+                .phoneNumber(phoneNumber)
                 .userName(userName)
                 .address(address)
                 .roles(Collections.singletonList(Role.ROLE_USER))

@@ -1,6 +1,7 @@
 package com.project.findme.domain.user.service.Impl;
 
 import com.project.findme.domain.user.entity.User;
+import com.project.findme.domain.user.exception.InvalidTokenException;
 import com.project.findme.domain.user.exception.RefreshTokenExpiredException;
 import com.project.findme.domain.user.exception.UserNotFoundException;
 import com.project.findme.domain.user.presentation.dto.ReissueTokenResponse;
@@ -24,18 +25,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public ReissueTokenResponse reissueToken(String token) {
-        if(!jwtTokenProvider.isExpired(token)) {
+    public ReissueTokenResponse reissueToken(String refreshToken) {
+        if(jwtTokenProvider.isExpired(refreshToken)) {
             throw new RefreshTokenExpiredException("refreshToken이 만료되었습니다.");
         }
 
-        User user = userRepository.findById(jwtTokenProvider.getUserId(token))
+        User user = userRepository.findById(jwtTokenProvider.getUserId(refreshToken))
                 .orElseThrow(() -> new UserNotFoundException("사용자를 찾을 수 없습니다."));
 
-        String refreshToken = jwtTokenProvider.generateRefreshToken(user.getId());
+        if(!user.getRefreshToken().equals(refreshToken)) {
+            throw new InvalidTokenException("유효하지 않은 토큰입니다.");
+        }
+
+        String newAccessToken = jwtTokenProvider.generateAccessToken(user.getId());
+        String newRefreshToken = jwtTokenProvider.generateRefreshToken(user.getId());
+
+        user.updateRefreshToken(newRefreshToken);
 
         return ReissueTokenResponse.builder()
-                .newRefreshToken(refreshToken)
+                .newAccessToken(newAccessToken)
+                .newRefreshToken(newRefreshToken)
                 .build();
     }
 
