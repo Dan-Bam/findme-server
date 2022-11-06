@@ -32,7 +32,7 @@ public class Found {
     private Category category;
 
     @ElementCollection
-    @CollectionTable(name = "tags", joinColumns = @JoinColumn(name = "userId"))
+    @CollectionTable(name = "found_tags", joinColumns = @JoinColumn(name = "userId"))
     private List<String> tags = new ArrayList<>();
 
     private boolean safeTransaction;

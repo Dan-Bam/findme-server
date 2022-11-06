@@ -33,7 +33,7 @@ public class Lost {
     private Category category;
 
     @ElementCollection
-    @CollectionTable(name = "tags", joinColumns = @JoinColumn(name = "userId"))
+    @CollectionTable(name = "lost_tags", joinColumns = @JoinColumn(name = "userId"))
     private List<String> tags = new ArrayList<>();
 
     private boolean safeTransaction;
