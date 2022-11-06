@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("message")
+@RequestMapping("auth")
 @RequiredArgsConstructor
-public class MessageController {
+public class AuthMessageController {
 
     private final MessageService messageService;
 
-    @PostMapping
+    @PostMapping("/send/message")
     public ResponseEntity<Void> sendMessage(@RequestBody @Valid PhoneNumberRequest phoneNumberRequest) {
         messageService.sendMessage(phoneNumberRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping
+    @PostMapping("/check/message")
     public ResponseEntity<Void> checkAuthKey(@RequestBody @Valid CheckAuthKeyRequest checkAuthKeyRequest) {
         messageService.checkAuthKey(checkAuthKeyRequest);
         return new ResponseEntity<>(HttpStatus.OK);
