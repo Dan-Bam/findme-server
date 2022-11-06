@@ -41,7 +41,7 @@ public class MessageServiceImpl implements MessageService {
         params.put("to", phoneNumberRequest.getPhoneNumber());
         params.put("from", "01065466622");
         params.put("type", "SMS");
-        params.put("text", "테스트 인증번호 " + authKey);
+        params.put("text", "findme 인증번호 입니다 이키를 외부에 노출하지 마세요. "+ authKey);
         params.put("app_version", "test app 1.2");
 
         try {
