@@ -36,7 +36,7 @@ public class LostServiceImpl implements LostService {
     public void createLost(CreateLostRequest createLostRequest, List<MultipartFile> multipartFiles) {
 
         User user = userUtil.currentUser();
-        List<String> uploadFile = s3Service.upload(multipartFiles, "lost/");
+        List<String> uploadFile = s3Service.upload(multipartFiles, "lost/" + createLostRequest.getCategory() + "/");
         Lost lost = lostRepository.save(createLostRequest.toEntity(user));
 
         uploadFile.forEach(file -> {
