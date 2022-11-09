@@ -37,6 +37,7 @@ public class SignInServiceImpl implements SignInService {
         return SignInResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .expiredAt(jwtTokenProvider.getExpiredTime())
                 .build();
 
     }
