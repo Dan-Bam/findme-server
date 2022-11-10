@@ -1,7 +1,8 @@
 package com.project.findme.domain.lost.presentation.controller;
 
 import com.project.findme.domain.lost.presentation.dto.CreateLostRequest;
-import com.project.findme.domain.lost.presentation.dto.LostResponseDto;
+import com.project.findme.domain.lost.presentation.dto.LostResponse;
+import com.project.findme.domain.lost.presentation.dto.UpdateLostRequest;
 import com.project.findme.domain.lost.service.LostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,21 +28,36 @@ public class LostController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @PatchMapping("{lostId}")
+    public ResponseEntity<Void> updateLost(
+            @PathVariable Long lostId,
+            @Valid @RequestPart(name = "lostDto")UpdateLostRequest updateLostRequest,
+            @RequestPart List<MultipartFile> files) {
+        lostService.updateLost(lostId, updateLostRequest, files);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("{lostId}")
+    public ResponseEntity<Void> deleteLost(@PathVariable Long lostId) {
+        lostService.deleteLost(lostId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("{lostId}")
-    public ResponseEntity<LostResponseDto> findByLostId(@PathVariable("lostId") Long lostId) {
-        LostResponseDto responseDto = lostService.findById(lostId);
+    public ResponseEntity<LostResponse> findByLostId(@PathVariable("lostId") Long lostId) {
+        LostResponse responseDto = lostService.findById(lostId);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @GetMapping("findAll")
-    public ResponseEntity<List<LostResponseDto>> findLostAll() {
-        List<LostResponseDto> responseDto = lostService.findAll();
+    public ResponseEntity<List<LostResponse>> findLostAll() {
+        List<LostResponse> responseDto = lostService.findAll();
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @GetMapping("")
-    public ResponseEntity<List<LostResponseDto>> findByCategory(@RequestParam("category") String category) {
-        List<LostResponseDto> responseDto = lostService.findByCategory(category);
+    public ResponseEntity<List<LostResponse>> findByCategory(@RequestParam("category") String category) {
+        List<LostResponse> responseDto = lostService.findByCategory(category);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 }

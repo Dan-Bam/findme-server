@@ -15,7 +15,7 @@ public class LostImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long imageId;
+    private Long id;
 
     @JsonIgnore
     @ManyToOne

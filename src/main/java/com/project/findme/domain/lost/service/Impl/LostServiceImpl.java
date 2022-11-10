@@ -6,7 +6,8 @@ import com.project.findme.domain.image.service.S3Service;
 import com.project.findme.domain.lost.entity.Lost;
 import com.project.findme.domain.lost.exception.LostNotFoundException;
 import com.project.findme.domain.lost.presentation.dto.CreateLostRequest;
-import com.project.findme.domain.lost.presentation.dto.LostResponseDto;
+import com.project.findme.domain.lost.presentation.dto.LostResponse;
+import com.project.findme.domain.lost.presentation.dto.UpdateLostRequest;
 import com.project.findme.domain.lost.repository.LostRepository;
 import com.project.findme.domain.lost.service.LostService;
 import com.project.findme.domain.lost.type.Category;
@@ -40,30 +41,63 @@ public class LostServiceImpl implements LostService {
         Lost lost = lostRepository.save(createLostRequest.toEntity(user));
 
         uploadFile.forEach(file -> {
-            lostImageRepository.save(saveToUrl(lost, file));
+            lostImageRepository.save(saveToUrl(lost, createLostRequest.getCategory().toString(), file));
         });
 
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public LostImage saveToUrl(Lost lost, String uploadFileUrl) {
+    public LostImage saveToUrl(Lost lost, String category, String uploadFileUrl) {
         return LostImage.builder()
                 .lost(lost)
-                .imageUrl("https://findme-s3-bucket.s3.ap-northeast-2.amazonaws.com/lost/" + uploadFileUrl)
+                .imageUrl("https://findme-s3-bucket.s3.ap-northeast-2.amazonaws.com/lost/" + category + "/" + uploadFileUrl)
                 .build();
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateLost(Long lostId, UpdateLostRequest updateLostRequest, List<MultipartFile> multipartFileList) {
+        Lost lost = findLostById(lostId);
+
+        lostImageRepository.findLostImageByLostId(lostId).forEach(file -> {
+            s3Service.deleteFile(file.getImageUrl().substring(57));
+            lostImageRepository.deleteByLostId(lost.getId());
+        });
+
+        List<String> uploadFile = s3Service.upload(multipartFileList, "lost/" + updateLostRequest.getCategory() + "/");
+
+        uploadFile.forEach(file -> {
+            lostImageRepository.save(saveToUrl(lost, updateLostRequest.getCategory().toString(), file));
+        });
+
+        lost.updateLost(updateLostRequest.getTitle(), updateLostRequest.getDescription(), updateLostRequest.getPlace(), updateLostRequest.getCategory(), updateLostRequest.getTags());
+
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteLost(Long lostId) {
+        Lost lost = findLostById(lostId);
+        List<LostImage> lostImage = lostImageRepository.findLostImageByLostId(lostId);
+
+        lostImage.forEach(file -> {
+            s3Service.deleteFile(file.getImageUrl().substring(57));
+            lostImageRepository.deleteByLostId(lost.getId());
+        });
+
+        lostRepository.delete(lost);
+    }
+
+    @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public LostResponseDto findById(Long lostId) {
-        Lost lost = lostRepository.findById(lostId)
-                .orElseThrow(() -> new LostNotFoundException("분실물을 찾을 수 없습니다."));
+    public LostResponse findById(Long lostId) {
+        Lost lost = findLostById(lostId);
 
-        List<LostImage> imageByLostId = lostImageRepository.findLostImageByLost_LostId(lostId);
+        List<LostImage> imageByLostId = lostImageRepository.findLostImageByLostId(lostId);
 
-        return LostResponseDto.builder()
-                .id(lost.getLostId())
+        return LostResponse.builder()
+                .id(lost.getId())
                 .title(lost.getTitle())
                 .description(lost.getDescription())
                 .place(lost.getPlace())
@@ -76,33 +110,37 @@ public class LostServiceImpl implements LostService {
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public List<LostResponseDto> findAll() {
-        return lostRepository.findAll().stream().map(lost -> LostResponseDto.builder()
-                .id(lost.getLostId())
+    public List<LostResponse> findAll() {
+        return lostRepository.findAll().stream().map(lost -> LostResponse.builder()
+                .id(lost.getId())
                 .title(lost.getTitle())
                 .description(lost.getDescription())
                 .place(lost.getPlace())
                 .category(lost.getCategory().getName())
                 .tags(lost.getTags())
-                .lostImages(lostImageRepository.findLostImageByLost_LostId(lost.getLostId()))
+                .lostImages(lostImageRepository.findLostImageByLostId(lost.getId()))
                 .safeTransaction(lost.isSafeTransaction())
                 .build()).collect(Collectors.toList());
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public List<LostResponseDto> findByCategory(String category) {
-        return lostRepository.findLostByCategory(Category.findByName(category)).stream().map(lost -> LostResponseDto.builder()
-                .id(lost.getLostId())
+    public List<LostResponse> findByCategory(String category) {
+        return lostRepository.findLostByCategory(Category.findByName(category)).stream().map(lost -> LostResponse.builder()
+                .id(lost.getId())
                 .title(lost.getTitle())
                 .description(lost.getDescription())
                 .place(lost.getPlace())
                 .category(lost.getCategory().getName())
                 .tags(lost.getTags())
-                .lostImages(lostImageRepository.findLostImageByLost_LostId(lost.getLostId()))
+                .lostImages(lostImageRepository.findLostImageByLostId(lost.getId()))
                 .safeTransaction(lost.isSafeTransaction())
                 .build()).collect(Collectors.toList());
     }
 
-
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public Lost findLostById(Long lostId) {
+        return lostRepository.findById(lostId)
+                .orElseThrow(() -> new LostNotFoundException("분실물을 찾을 수 없습니다."));
+    }
 }
