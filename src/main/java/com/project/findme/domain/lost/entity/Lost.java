@@ -1,5 +1,6 @@
 package com.project.findme.domain.lost.entity;
 
+import com.project.findme.domain.image.entity.LostImage;
 import com.project.findme.domain.lost.type.Category;
 import com.project.findme.domain.user.entity.User;
 import lombok.*;
@@ -17,7 +18,7 @@ public class Lost {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long lostId;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "userId")
@@ -37,5 +38,13 @@ public class Lost {
     private List<String> tags = new ArrayList<>();
 
     private boolean safeTransaction;
+
+    public void updateLost(String title, String description, String place, Category category, List<String> tags) {
+        this.title = title;
+        this.description = description;
+        this.place = place;
+        this.category = category;
+        this.tags = tags;
+    }
 
 }
