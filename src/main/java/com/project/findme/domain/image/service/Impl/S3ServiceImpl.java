@@ -2,7 +2,7 @@ package com.project.findme.domain.image.service.Impl;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
-import com.project.findme.domain.image.properties.S3BucketProperties;
+import com.project.findme.domain.image.config.S3BucketProperties;
 import com.project.findme.domain.image.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

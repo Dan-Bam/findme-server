@@ -4,7 +4,7 @@ import com.project.findme.domain.user.entity.User;
 import com.project.findme.domain.user.exception.InvalidTokenException;
 import com.project.findme.domain.user.exception.RefreshTokenExpiredException;
 import com.project.findme.domain.user.exception.UserNotFoundException;
-import com.project.findme.domain.user.presentation.dto.ReissueTokenResponse;
+import com.project.findme.domain.user.presentation.dto.response.ReissueTokenResponse;
 import com.project.findme.domain.user.repository.UserRepository;
 import com.project.findme.domain.user.service.UserService;
 import com.project.findme.domain.user.util.UserUtil;

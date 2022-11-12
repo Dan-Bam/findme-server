@@ -5,9 +5,9 @@ import com.project.findme.domain.image.repository.LostImageRepository;
 import com.project.findme.domain.image.service.S3Service;
 import com.project.findme.domain.lost.entity.Lost;
 import com.project.findme.domain.lost.exception.LostNotFoundException;
-import com.project.findme.domain.lost.presentation.dto.CreateLostRequest;
-import com.project.findme.domain.lost.presentation.dto.LostResponse;
-import com.project.findme.domain.lost.presentation.dto.UpdateLostRequest;
+import com.project.findme.domain.lost.presentation.dto.request.CreateLostRequest;
+import com.project.findme.domain.lost.presentation.dto.response.LostResponse;
+import com.project.findme.domain.lost.presentation.dto.request.UpdateLostRequest;
 import com.project.findme.domain.lost.repository.LostRepository;
 import com.project.findme.domain.lost.service.LostService;
 import com.project.findme.domain.lost.type.Category;
@@ -94,17 +94,14 @@ public class LostServiceImpl implements LostService {
     public LostResponse findById(Long lostId) {
         Lost lost = findLostById(lostId);
 
-        List<LostImage> imageByLostId = lostImageRepository.findLostImageByLostId(lostId);
-
         return LostResponse.builder()
                 .id(lost.getId())
                 .title(lost.getTitle())
                 .description(lost.getDescription())
                 .place(lost.getPlace())
                 .category(lost.getCategory().getName())
-                .lostImages(imageByLostId)
+                .lostImages(lostImageRepository.findLostImageByLostId(lostId))
                 .tags(lost.getTags())
-                .safeTransaction(lost.isSafeTransaction())
                 .build();
     }
 
@@ -119,7 +116,6 @@ public class LostServiceImpl implements LostService {
                 .category(lost.getCategory().getName())
                 .tags(lost.getTags())
                 .lostImages(lostImageRepository.findLostImageByLostId(lost.getId()))
-                .safeTransaction(lost.isSafeTransaction())
                 .build()).collect(Collectors.toList());
     }
 
@@ -134,7 +130,6 @@ public class LostServiceImpl implements LostService {
                 .category(lost.getCategory().getName())
                 .tags(lost.getTags())
                 .lostImages(lostImageRepository.findLostImageByLostId(lost.getId()))
-                .safeTransaction(lost.isSafeTransaction())
                 .build()).collect(Collectors.toList());
     }
 

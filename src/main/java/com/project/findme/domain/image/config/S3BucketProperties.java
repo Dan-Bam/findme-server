@@ -1,4 +1,4 @@
-package com.project.findme.domain.image.properties;
+package com.project.findme.domain.image.config;
 
 import lombok.*;
 import org.springframework.boot.context.properties.ConfigurationProperties;

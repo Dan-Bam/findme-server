@@ -1,8 +1,8 @@
 package com.project.findme.domain.lost.presentation.controller;
 
-import com.project.findme.domain.lost.presentation.dto.CreateLostRequest;
-import com.project.findme.domain.lost.presentation.dto.LostResponse;
-import com.project.findme.domain.lost.presentation.dto.UpdateLostRequest;
+import com.project.findme.domain.lost.presentation.dto.request.CreateLostRequest;
+import com.project.findme.domain.lost.presentation.dto.response.LostResponse;
+import com.project.findme.domain.lost.presentation.dto.request.UpdateLostRequest;
 import com.project.findme.domain.lost.service.LostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

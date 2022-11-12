@@ -1,4 +1,4 @@
-package com.project.findme.domain.user.presentation.dto;
+package com.project.findme.domain.user.presentation.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

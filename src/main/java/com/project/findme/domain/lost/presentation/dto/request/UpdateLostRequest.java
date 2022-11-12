@@ -1,4 +1,4 @@
-package com.project.findme.domain.lost.presentation.dto;
+package com.project.findme.domain.lost.presentation.dto.request;
 
 import com.project.findme.domain.lost.type.Category;
 import lombok.AllArgsConstructor;

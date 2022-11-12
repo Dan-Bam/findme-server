@@ -1,4 +1,4 @@
-package com.project.findme.domain.user.presentation.dto;
+package com.project.findme.domain.user.presentation.dto.request;
 
 import com.project.findme.domain.user.entity.User;
 import com.project.findme.domain.user.type.Role;

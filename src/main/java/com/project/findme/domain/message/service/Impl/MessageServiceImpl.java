@@ -34,14 +34,14 @@ public class MessageServiceImpl implements MessageService {
     @Transactional(rollbackFor = Exception.class)
     public void sendMessage(PhoneNumberRequest phoneNumberRequest) {
         Integer authKey = createAuthKey();
-
+        log.info(phoneNumberRequest.getPhoneNumber());
         Message coolsms = new Message(coolsmsKeyProperties.getAccess(), coolsmsKeyProperties.getSecret());
 
         HashMap<String, String> params = new HashMap<>();
         params.put("to", phoneNumberRequest.getPhoneNumber());
-        params.put("from", "01065466622");
+        params.put("from", "01048335691");
         params.put("type", "SMS");
-        params.put("text", "findme 인증번호 입니다 이키를 외부에 노출하지 마세요. "+ authKey);
+        params.put("text", "findme 인증번호는 [ " + authKey + " ] 입니다.");
         params.put("app_version", "test app 1.2");
 
         try {

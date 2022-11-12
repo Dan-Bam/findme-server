@@ -1,9 +1,7 @@
 package com.project.findme.domain.user.service.Impl;
 
-import com.project.findme.domain.user.entity.User;
 import com.project.findme.domain.user.exception.DuplicateIdException;
-import com.project.findme.domain.user.exception.IdNotFoundException;
-import com.project.findme.domain.user.presentation.dto.SignUpRequest;
+import com.project.findme.domain.user.presentation.dto.request.SignUpRequest;
 import com.project.findme.domain.user.repository.UserRepository;
 import com.project.findme.domain.user.service.SignUpService;
 import lombok.RequiredArgsConstructor;

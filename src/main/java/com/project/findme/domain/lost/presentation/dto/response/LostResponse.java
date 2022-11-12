@@ -1,4 +1,4 @@
-package com.project.findme.domain.lost.presentation.dto;
+package com.project.findme.domain.lost.presentation.dto.response;
 
 import com.project.findme.domain.image.entity.LostImage;
 import lombok.AllArgsConstructor;
@@ -26,7 +26,5 @@ public class LostResponse {
     private String category;
 
     private List<String> tags;
-
-    private boolean safeTransaction;
 
 }

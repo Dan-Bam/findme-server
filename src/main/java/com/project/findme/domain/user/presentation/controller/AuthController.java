@@ -1,9 +1,9 @@
 package com.project.findme.domain.user.presentation.controller;
 
-import com.project.findme.domain.user.presentation.dto.ReissueTokenResponse;
-import com.project.findme.domain.user.presentation.dto.SignInRequest;
-import com.project.findme.domain.user.presentation.dto.SignInResponse;
-import com.project.findme.domain.user.presentation.dto.SignUpRequest;
+import com.project.findme.domain.user.presentation.dto.request.SignInRequest;
+import com.project.findme.domain.user.presentation.dto.request.SignUpRequest;
+import com.project.findme.domain.user.presentation.dto.response.ReissueTokenResponse;
+import com.project.findme.domain.user.presentation.dto.response.SignInResponse;
 import com.project.findme.domain.user.service.SignInService;
 import com.project.findme.domain.user.service.SignUpService;
 import com.project.findme.domain.user.service.UserService;
