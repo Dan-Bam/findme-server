@@ -1,6 +1,7 @@
 package com.project.findme.domain.found.presentation.controller;
 
 import com.project.findme.domain.found.presentation.dto.CreateFoundRequest;
+import com.project.findme.domain.found.presentation.dto.UpdateFoundRequest;
 import com.project.findme.domain.found.service.FoundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,4 +27,21 @@ public class FoundController {
         foundService.createFound(createFoundRequest, files);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @PatchMapping("{foundId}")
+    public ResponseEntity<Void> updateFound(
+            @PathVariable Long foundId,
+            @RequestPart("foundDto") @Valid UpdateFoundRequest updateFoundRequest,
+            @RequestParam List<MultipartFile> files
+    ) {
+        foundService.updateFound(foundId, updateFoundRequest, files);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("{foundId}")
+    public ResponseEntity<Void> deleteFound(@PathVariable Long foundId) {
+        foundService.deleteFound(foundId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.project.findme.domain.image.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.findme.domain.found.entity.Found;
 import lombok.*;
 
@@ -15,8 +16,9 @@ public class FoundImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "foundId")
+    @JoinColumn(name = "foundId", nullable = false)
     private Found found;
 
     private String imageUrl;

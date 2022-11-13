@@ -16,10 +16,11 @@ public class Found {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long foundId;
+    @Column(name = "found_id")
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     private String title;
@@ -36,4 +37,12 @@ public class Found {
     private List<String> tags = new ArrayList<>();
 
     private boolean safeTransaction;
+
+    public void updateFound(String title, String description, String place, Category category, List<String> tags) {
+        this.title = title;
+        this.description = description;
+        this.place = place;
+        this.category = category;
+        this.tags = tags;
+    }
 }
