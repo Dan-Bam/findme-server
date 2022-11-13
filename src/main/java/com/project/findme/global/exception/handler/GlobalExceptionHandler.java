@@ -1,5 +1,6 @@
 package com.project.findme.global.exception.handler;
 
+import com.project.findme.domain.found.exception.FoundNotFoundException;
 import com.project.findme.domain.lost.exception.LostNotFoundException;
 import com.project.findme.domain.message.exception.AuthKeyNotMatchException;
 import com.project.findme.domain.message.exception.PhoneNumberNotFound;
@@ -64,6 +65,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidTokenException.class)
     public ResponseEntity<ErrorResponse> InvalidTokenException(InvalidTokenException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
+    @ExceptionHandler(FoundNotFoundException.class)
+    public ResponseEntity<ErrorResponse> FoundNotFoundException(FoundNotFoundException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }

@@ -32,10 +32,9 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
             setErrorResponse(ErrorCode.INVALID_TOKEN, response);
         } catch (UserNotFoundException e) {
             setErrorResponse(ErrorCode.USER_NOT_FOUND, response);
-       }
-//        catch (Exception e) {
-//            setErrorResponse(ErrorCode.INTERVAL_SERVER_ERROR,response);
-//        }
+       } catch (Exception e) {
+            setErrorResponse(ErrorCode.INTERVAL_SERVER_ERROR,response);
+        }
     }
 
     public void setErrorResponse(ErrorCode errorCode, HttpServletResponse response) throws IOException {

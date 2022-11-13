@@ -30,8 +30,12 @@ public enum ErrorCode {
     LOST_NOT_FOUND("분실물 게시글을 찾을 수 없습니다.", 404),
 
 
+    // FOUND
+    FOUND_NOT_FOUND("습득물 게시글을 찾을 수 없습니다.", 404),
+
+
     // SERVER
-    INTERVAL_SERVER_ERROR("서버 오류 입니다 ^^ㅣ발", 500)
+    INTERVAL_SERVER_ERROR("서버 오류 입니다.", 500)
     ;
 
     private final String msg;
