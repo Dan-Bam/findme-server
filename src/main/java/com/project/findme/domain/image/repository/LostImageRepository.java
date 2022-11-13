@@ -8,7 +8,6 @@ import java.util.List;
 public interface LostImageRepository extends JpaRepository<LostImage, Long> {
 
     List<LostImage> findLostImageByLostId(Long lostId);
-    LostImage getLostImageByLostId(Long lostId);
     void deleteByLostId(Long lostId);
 
 }

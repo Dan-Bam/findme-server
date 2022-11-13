@@ -6,8 +6,8 @@ import com.project.findme.domain.image.service.S3Service;
 import com.project.findme.domain.lost.entity.Lost;
 import com.project.findme.domain.lost.exception.LostNotFoundException;
 import com.project.findme.domain.lost.presentation.dto.request.CreateLostRequest;
-import com.project.findme.domain.lost.presentation.dto.response.LostResponse;
 import com.project.findme.domain.lost.presentation.dto.request.UpdateLostRequest;
+import com.project.findme.domain.lost.presentation.dto.response.LostResponse;
 import com.project.findme.domain.lost.repository.LostRepository;
 import com.project.findme.domain.lost.service.LostService;
 import com.project.findme.domain.lost.type.Category;
@@ -35,7 +35,6 @@ public class LostServiceImpl implements LostService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void createLost(CreateLostRequest createLostRequest, List<MultipartFile> multipartFiles) {
-
         User user = userUtil.currentUser();
         List<String> uploadFile = s3Service.upload(multipartFiles, "lost/" + createLostRequest.getCategory() + "/");
         Lost lost = lostRepository.save(createLostRequest.toEntity(user));
@@ -43,7 +42,6 @@ public class LostServiceImpl implements LostService {
         uploadFile.forEach(file -> {
             lostImageRepository.save(saveToUrl(lost, createLostRequest.getCategory().toString(), file));
         });
-
     }
 
     @Override
@@ -60,7 +58,7 @@ public class LostServiceImpl implements LostService {
     public void updateLost(Long lostId, UpdateLostRequest updateLostRequest, List<MultipartFile> multipartFileList) {
         Lost lost = findLostById(lostId);
 
-        lostImageRepository.findLostImageByLostId(lostId).forEach(file -> {
+        lostImageRepository.findLostImageByLostId(lost.getId()).forEach(file -> {
             s3Service.deleteFile(file.getImageUrl().substring(57));
             lostImageRepository.deleteByLostId(lost.getId());
         });
@@ -72,16 +70,15 @@ public class LostServiceImpl implements LostService {
         });
 
         lost.updateLost(updateLostRequest.getTitle(), updateLostRequest.getDescription(), updateLostRequest.getPlace(), updateLostRequest.getCategory(), updateLostRequest.getTags());
-
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteLost(Long lostId) {
         Lost lost = findLostById(lostId);
-        List<LostImage> lostImage = lostImageRepository.findLostImageByLostId(lostId);
+        List<LostImage> lostImages = lostImageRepository.findLostImageByLostId(lostId);
 
-        lostImage.forEach(file -> {
+        lostImages.forEach(file -> {
             s3Service.deleteFile(file.getImageUrl().substring(57));
             lostImageRepository.deleteByLostId(lost.getId());
         });
