@@ -7,14 +7,14 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Getter
-@Builder
+@Getter @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LostImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "lost_image_id")
     private Long id;
 
     @JsonIgnore

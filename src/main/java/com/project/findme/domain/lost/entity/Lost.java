@@ -1,6 +1,5 @@
 package com.project.findme.domain.lost.entity;
 
-import com.project.findme.domain.image.entity.LostImage;
 import com.project.findme.domain.lost.type.Category;
 import com.project.findme.domain.user.entity.User;
 import lombok.*;
@@ -18,10 +17,11 @@ public class Lost {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "lost_id")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     private String title;
