@@ -19,12 +19,14 @@ public class LostResponse {
 
     private String description;
 
-    private String place;
-
     private List<LostImage> lostImages;
 
     private String category;
 
     private List<String> tags;
+
+    private String latitude;
+
+    private String longitude;
 
 }

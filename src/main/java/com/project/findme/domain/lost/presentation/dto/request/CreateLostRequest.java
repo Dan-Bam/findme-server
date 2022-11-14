@@ -23,9 +23,6 @@ public class CreateLostRequest {
     @NotBlank(message = "설명이 입력되지 않았습니다")
     private String description;
 
-    @NotBlank(message = "장소가 선택되지 않았습니다")
-    private String place;
-
     @NotNull(message = "카테고리가 입력되지 않았습니다")
     private Category category;
 
@@ -35,15 +32,22 @@ public class CreateLostRequest {
     @NotNull(message = "안심거래가 선택되지 않았습니다")
     private boolean safeTransaction;
 
+    @NotBlank(message = "위도 값이 입력되지 않았습니다")
+    private String latitude;
+
+    @NotBlank(message = "경도 값이 입력되지 않았습니다")
+    private String longitude;
+
     public Lost toEntity(User user) {
         return Lost.builder()
                 .user(user)
                 .title(title)
                 .description(description)
-                .place(place)
                 .category(category)
                 .tags(tags)
                 .safeTransaction(safeTransaction)
+                .latitude(latitude)
+                .longitude(longitude)
                 .build();
     }
 }

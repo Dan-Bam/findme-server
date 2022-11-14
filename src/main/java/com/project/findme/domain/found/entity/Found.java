@@ -27,8 +27,6 @@ public class Found {
 
     private String description;
 
-    private String place;
-
     @Enumerated(EnumType.STRING)
     private Category category;
 
@@ -38,11 +36,17 @@ public class Found {
 
     private boolean safeTransaction;
 
-    public void updateFound(String title, String description, String place, Category category, List<String> tags) {
+    private String latitude;
+
+    private String longitude;
+
+    public void updateFound(String title, String description, String latitude, String longitude, Category category, List<String> tags) {
         this.title = title;
         this.description = description;
-        this.place = place;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.category = category;
         this.tags = tags;
     }
+
 }

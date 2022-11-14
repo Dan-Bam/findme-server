@@ -69,7 +69,7 @@ public class LostServiceImpl implements LostService {
             lostImageRepository.save(saveToUrl(lost, updateLostRequest.getCategory().toString(), file));
         });
 
-        lost.updateLost(updateLostRequest.getTitle(), updateLostRequest.getDescription(), updateLostRequest.getPlace(), updateLostRequest.getCategory(), updateLostRequest.getTags());
+        lost.updateLost(updateLostRequest.getTitle(), updateLostRequest.getDescription(), updateLostRequest.getLatitude(), updateLostRequest.getLongitude(), updateLostRequest.getCategory(), updateLostRequest.getTags());
     }
 
     @Override
@@ -95,10 +95,11 @@ public class LostServiceImpl implements LostService {
                 .id(lost.getId())
                 .title(lost.getTitle())
                 .description(lost.getDescription())
-                .place(lost.getPlace())
                 .category(lost.getCategory().getName())
                 .lostImages(lostImageRepository.findLostImageByLostId(lostId))
                 .tags(lost.getTags())
+                .latitude(lost.getLatitude())
+                .longitude(lost.getLongitude())
                 .build();
     }
 
@@ -109,10 +110,11 @@ public class LostServiceImpl implements LostService {
                 .id(lost.getId())
                 .title(lost.getTitle())
                 .description(lost.getDescription())
-                .place(lost.getPlace())
                 .category(lost.getCategory().getName())
                 .tags(lost.getTags())
                 .lostImages(lostImageRepository.findLostImageByLostId(lost.getId()))
+                .latitude(lost.getLatitude())
+                .longitude(lost.getLongitude())
                 .build()).collect(Collectors.toList());
     }
 
@@ -123,10 +125,11 @@ public class LostServiceImpl implements LostService {
                 .id(lost.getId())
                 .title(lost.getTitle())
                 .description(lost.getDescription())
-                .place(lost.getPlace())
                 .category(lost.getCategory().getName())
                 .tags(lost.getTags())
                 .lostImages(lostImageRepository.findLostImageByLostId(lost.getId()))
+                .latitude(lost.getLatitude())
+                .longitude(lost.getLongitude())
                 .build()).collect(Collectors.toList());
     }
 

@@ -31,7 +31,7 @@ public class FoundServiceImpl implements FoundService {
     @Transactional(rollbackFor = Exception.class)
     public void createFound(CreateFoundRequest createFoundRequest, List<MultipartFile> multipartFiles) {
         User user = userUtil.currentUser();
-        List<String> uploadUrls = s3Service.upload(multipartFiles, "found/");
+        List<String> uploadUrls = s3Service.upload(multipartFiles, "found/" + createFoundRequest.getCategory().toString() + "/");
         Found found = foundRepository.save(createFoundRequest.toEntity(user));
 
         uploadUrls.forEach(uploadUrl -> {
@@ -58,13 +58,13 @@ public class FoundServiceImpl implements FoundService {
             foundImageRepository.deleteByFoundId(found.getId());
         });
 
-        List<String> uploadFile = s3Service.upload(multipartFileList, "lost/" + updateFoundRequest.getCategory() + "/");
+        List<String> uploadFile = s3Service.upload(multipartFileList, "found/" + updateFoundRequest.getCategory() + "/");
 
         uploadFile.forEach(file -> {
             foundImageRepository.save(saveToUrl(found, updateFoundRequest.getCategory().toString(), file));
         });
 
-        found.updateFound(updateFoundRequest.getTitle(), updateFoundRequest.getDescription(), updateFoundRequest.getPlace(), updateFoundRequest.getCategory(), updateFoundRequest.getTags());
+        found.updateFound(updateFoundRequest.getTitle(), updateFoundRequest.getDescription(), updateFoundRequest.getLatitude(), updateFoundRequest.getLongitude(), updateFoundRequest.getCategory(), updateFoundRequest.getTags());
     }
 
     @Override
