@@ -64,7 +64,7 @@ public class FoundServiceImpl implements FoundService {
             foundImageRepository.save(saveToUrl(found, updateFoundRequest.getCategory().toString(), file));
         });
 
-        found.updateFound(updateFoundRequest.getTitle(), updateFoundRequest.getDescription(), updateFoundRequest.getLatitude(), updateFoundRequest.getLongitude(), updateFoundRequest.getCategory(), updateFoundRequest.getTags());
+        found.updateFound(updateFoundRequest.getTitle(), updateFoundRequest.getDescription(), updateFoundRequest.getCategory(), updateFoundRequest.getTags(), updateFoundRequest.getPlace(), updateFoundRequest.getLatitude(), updateFoundRequest.getLongitude());
     }
 
     @Override

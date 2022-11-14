@@ -37,17 +37,20 @@ public class Lost {
 
     private boolean safeTransaction;
 
+    private String place;
+
     private String latitude;
 
     private String longitude;
 
-    public void updateLost(String title, String description, String latitude, String longitude, Category category, List<String> tags) {
+    public void updateLost(String title, String description, Category category, List<String> tags,String place, String latitude, String longitude) {
         this.title = title;
         this.description = description;
-        this.latitude = latitude;
-        this.longitude = longitude;
         this.category = category;
         this.tags = tags;
+        this.place = place;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
 }

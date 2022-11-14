@@ -69,7 +69,7 @@ public class LostServiceImpl implements LostService {
             lostImageRepository.save(saveToUrl(lost, updateLostRequest.getCategory().toString(), file));
         });
 
-        lost.updateLost(updateLostRequest.getTitle(), updateLostRequest.getDescription(), updateLostRequest.getLatitude(), updateLostRequest.getLongitude(), updateLostRequest.getCategory(), updateLostRequest.getTags());
+        lost.updateLost(updateLostRequest.getTitle(), updateLostRequest.getDescription(), updateLostRequest.getCategory(), updateLostRequest.getTags(), updateLostRequest.getPlace(), updateLostRequest.getLatitude(), updateLostRequest.getLongitude());
     }
 
     @Override
@@ -98,6 +98,7 @@ public class LostServiceImpl implements LostService {
                 .category(lost.getCategory().getName())
                 .lostImages(lostImageRepository.findLostImageByLostId(lostId))
                 .tags(lost.getTags())
+                .place(lost.getPlace())
                 .latitude(lost.getLatitude())
                 .longitude(lost.getLongitude())
                 .build();
@@ -113,6 +114,7 @@ public class LostServiceImpl implements LostService {
                 .category(lost.getCategory().getName())
                 .tags(lost.getTags())
                 .lostImages(lostImageRepository.findLostImageByLostId(lost.getId()))
+                .place(lost.getPlace())
                 .latitude(lost.getLatitude())
                 .longitude(lost.getLongitude())
                 .build()).collect(Collectors.toList());
@@ -128,6 +130,7 @@ public class LostServiceImpl implements LostService {
                 .category(lost.getCategory().getName())
                 .tags(lost.getTags())
                 .lostImages(lostImageRepository.findLostImageByLostId(lost.getId()))
+                .place(lost.getPlace())
                 .latitude(lost.getLatitude())
                 .longitude(lost.getLongitude())
                 .build()).collect(Collectors.toList());

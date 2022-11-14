@@ -32,6 +32,9 @@ public class CreateLostRequest {
     @NotNull(message = "안심거래가 선택되지 않았습니다")
     private boolean safeTransaction;
 
+    @NotBlank(message = "장소가 선택되지 않았습니다")
+    private String place;
+
     @NotBlank(message = "위도 값이 입력되지 않았습니다")
     private String latitude;
 

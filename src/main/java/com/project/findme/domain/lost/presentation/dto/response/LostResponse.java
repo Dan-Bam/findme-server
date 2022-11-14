@@ -25,6 +25,8 @@ public class LostResponse {
 
     private List<String> tags;
 
+    private String place;
+
     private String latitude;
 
     private String longitude;
