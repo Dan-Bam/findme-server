@@ -28,7 +28,7 @@ public class LostFacade {
 
     @Transactional(rollbackFor = Exception.class)
     public Lost saveLost(CreateLostRequest createLostRequest) {
-        return createLostRequest.toEntity(userFacade.currentUser());
+        return lostRepository.save(createLostRequest.toEntity(userFacade.currentUser()));
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -45,8 +45,8 @@ public class LostFacade {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void deleteLostById(Long lostId) {
-        lostRepository.delete(findLostById(lostId));
+    public void deleteLostById(Lost lost) {
+        lostRepository.delete(lost);
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -102,6 +102,6 @@ public class LostFacade {
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Lost findLostById(Long lostId) {
         return lostRepository.findById(lostId)
-                .orElseThrow(() -> new LostNotFoundException("분실물을 찾을 수 없습니다."));
+                .orElseThrow(LostNotFoundException::new);
     }
 }

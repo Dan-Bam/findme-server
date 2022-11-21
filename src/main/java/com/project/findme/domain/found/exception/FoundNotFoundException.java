@@ -8,8 +8,7 @@ public class FoundNotFoundException extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public FoundNotFoundException(String message) {
-        super(message);
+    public FoundNotFoundException() {
         this.errorCode = ErrorCode.FOUND_NOT_FOUND;
     }
 

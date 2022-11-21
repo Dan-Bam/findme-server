@@ -1,19 +1,13 @@
 package com.project.findme.domain.lost.service.Impl;
 
 import com.project.findme.domain.image.entity.LostImage;
-import com.project.findme.domain.image.repository.LostImageRepository;
 import com.project.findme.domain.image.service.S3Service;
 import com.project.findme.domain.lost.entity.Lost;
-import com.project.findme.domain.lost.exception.LostNotFoundException;
 import com.project.findme.domain.lost.facade.LostFacade;
 import com.project.findme.domain.lost.presentation.dto.request.CreateLostRequest;
 import com.project.findme.domain.lost.presentation.dto.request.UpdateLostRequest;
 import com.project.findme.domain.lost.presentation.dto.response.LostResponse;
-import com.project.findme.domain.lost.repository.LostRepository;
 import com.project.findme.domain.lost.service.LostService;
-import com.project.findme.domain.lost.type.Category;
-import com.project.findme.domain.user.entity.User;
-import com.project.findme.domain.user.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -21,14 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Log4j2
 @Service
 @RequiredArgsConstructor
 public class LostServiceImpl implements LostService {
 
-    private final UserUtil userUtil;
     private final S3Service s3Service;
     private final LostFacade lostFacade;
 
@@ -75,7 +67,7 @@ public class LostServiceImpl implements LostService {
 
         lostFacade.deleteLostImagesById(lost.getId());
 
-        lostFacade.deleteLostById(lostId);
+        lostFacade.deleteLostById(lost);
     }
 
     @Override

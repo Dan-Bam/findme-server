@@ -2,6 +2,7 @@ package com.project.findme.domain.found.service.Impl;
 
 import com.project.findme.domain.found.entity.Found;
 import com.project.findme.domain.found.exception.FoundNotFoundException;
+import com.project.findme.domain.found.facade.FoundFacade;
 import com.project.findme.domain.found.presentation.dto.CreateFoundRequest;
 import com.project.findme.domain.found.presentation.dto.UpdateFoundRequest;
 import com.project.findme.domain.found.repository.FoundRepository;
@@ -22,8 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FoundServiceImpl implements FoundService {
 
-    private final FoundRepository foundRepository;
-    private final FoundImageRepository foundImageRepository;
+    private final FoundFacade foundFacade;
     private final S3Service s3Service;
     private final UserFacade userFacade;
 
@@ -32,10 +32,10 @@ public class FoundServiceImpl implements FoundService {
     public void createFound(CreateFoundRequest createFoundRequest, List<MultipartFile> multipartFiles) {
         User user = userFacade.currentUser();
         List<String> uploadUrls = s3Service.upload(multipartFiles, "found/" + createFoundRequest.getCategory().toString() + "/");
-        Found found = foundRepository.save(createFoundRequest.toEntity(user));
+        Found found = foundFacade.saveFound(createFoundRequest);
 
         uploadUrls.forEach(uploadUrl -> {
-            foundImageRepository.save(saveToUrl(found, createFoundRequest.getCategory().toString(), uploadUrl));
+            foundFacade.saveFoundImage(saveToUrl(found, createFoundRequest.getCategory().toString(), uploadUrl));
         });
     }
 
@@ -51,17 +51,14 @@ public class FoundServiceImpl implements FoundService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateFound(Long foundId, UpdateFoundRequest updateFoundRequest, List<MultipartFile> multipartFileList) {
-        Found found = findFoundById(foundId);
+        Found found = foundFacade.findFoundById(foundId);
 
-        foundImageRepository.findFoundImageByFoundId(found.getId()).forEach(file -> {
-            s3Service.deleteFile(file.getImageUrl().substring(57));
-            foundImageRepository.deleteByFoundId(found.getId());
-        });
+        foundFacade.deleteFoundImageById(foundId);
 
         List<String> uploadFile = s3Service.upload(multipartFileList, "found/" + updateFoundRequest.getCategory() + "/");
 
         uploadFile.forEach(file -> {
-            foundImageRepository.save(saveToUrl(found, updateFoundRequest.getCategory().toString(), file));
+            foundFacade.saveFoundImage(saveToUrl(found, updateFoundRequest.getCategory().toString(), file));
         });
 
         found.updateFound(updateFoundRequest.getTitle(), updateFoundRequest.getDescription(), updateFoundRequest.getCategory(), updateFoundRequest.getTags(), updateFoundRequest.getPlace(), updateFoundRequest.getLatitude(), updateFoundRequest.getLongitude());
@@ -70,19 +67,12 @@ public class FoundServiceImpl implements FoundService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteFound(Long foundId) {
-        Found found = findFoundById(foundId);
-        List<FoundImage> foundImages = foundImageRepository.findFoundImageByFoundId(foundId);
+        Found found = foundFacade.findFoundById(foundId);
 
-        foundImages.forEach(file -> {
-            s3Service.deleteFile(file.getImageUrl().substring(57));
-            foundImageRepository.deleteByFoundId(found.getId());
-        });
+        foundFacade.deleteFoundImageById(foundId);
 
-        foundRepository.delete(found);
+        foundFacade.deleteFoundById(found);
     }
 
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public Found findFoundById(Long findId) {
-        return foundRepository.findById(findId).orElseThrow(() -> new FoundNotFoundException("습득물 게시글을 찾을 수 없습니다."));
-    }
+
 }
