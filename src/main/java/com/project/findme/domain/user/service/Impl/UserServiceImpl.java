@@ -43,8 +43,9 @@ public class UserServiceImpl implements UserService {
         user.updateRefreshToken(newRefreshToken);
 
         return ReissueTokenResponse.builder()
-                .newAccessToken(newAccessToken)
-                .newRefreshToken(newRefreshToken)
+                .accessToken(newAccessToken)
+                .refreshToken(newRefreshToken)
+                .expiredAt(jwtTokenProvider.getExpiredTime())
                 .build();
     }
 
