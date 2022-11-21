@@ -26,7 +26,7 @@ public class UserFacade {
 
     @Transactional(rollbackFor = Exception.class)
     public void saveUser(SignUpRequest signUpRequest) {
-        signUpRequest.toEntity(passwordEncoder.encode(signUpRequest.getPassword()));
+        userRepository.save(signUpRequest.toEntity(passwordEncoder.encode(signUpRequest.getPassword())));
     }
 
     @Transactional(rollbackFor = Exception.class)
