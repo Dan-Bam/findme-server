@@ -1,4 +1,4 @@
-package com.project.findme.domain.message.properties;
+package com.project.findme.domain.message.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,9 +12,10 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @NoArgsConstructor
 @ConfigurationProperties("coolsms")
-public class CoolsmsKeyProperties {
+public class CoolsmsProperties {
 
     private String access;
     private String secret;
+    private String phone;
 
 }
