@@ -28,13 +28,11 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException e) {
             setErrorResponse(ErrorCode.EXPIRATION_TOKEN, response);
-        } catch (JwtException | IllegalStateException e) {
+        } catch (JwtException | IllegalArgumentException e) {
             setErrorResponse(ErrorCode.INVALID_TOKEN, response);
         } catch (UserNotFoundException e) {
             setErrorResponse(ErrorCode.USER_NOT_FOUND, response);
-       } catch (Exception e) {
-            setErrorResponse(ErrorCode.INTERVAL_SERVER_ERROR,response);
-        }
+       }
     }
 
     public void setErrorResponse(ErrorCode errorCode, HttpServletResponse response) throws IOException {

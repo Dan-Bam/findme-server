@@ -49,6 +49,7 @@ public class CreateLostRequest {
                 .category(category)
                 .tags(tags)
                 .safeTransaction(safeTransaction)
+                .place(place)
                 .latitude(latitude)
                 .longitude(longitude)
                 .build();
