@@ -10,7 +10,7 @@ import com.project.findme.domain.image.entity.FoundImage;
 import com.project.findme.domain.image.repository.FoundImageRepository;
 import com.project.findme.domain.image.service.S3Service;
 import com.project.findme.domain.user.entity.User;
-import com.project.findme.domain.user.util.UserUtil;
+import com.project.findme.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,13 +24,13 @@ public class FoundServiceImpl implements FoundService {
 
     private final FoundRepository foundRepository;
     private final FoundImageRepository foundImageRepository;
-    private final UserUtil userUtil;
     private final S3Service s3Service;
+    private final UserFacade userFacade;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void createFound(CreateFoundRequest createFoundRequest, List<MultipartFile> multipartFiles) {
-        User user = userUtil.currentUser();
+        User user = userFacade.currentUser();
         List<String> uploadUrls = s3Service.upload(multipartFiles, "found/" + createFoundRequest.getCategory().toString() + "/");
         Found found = foundRepository.save(createFoundRequest.toEntity(user));
 

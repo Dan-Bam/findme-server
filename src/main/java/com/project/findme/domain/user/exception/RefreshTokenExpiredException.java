@@ -8,8 +8,7 @@ public class RefreshTokenExpiredException extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public RefreshTokenExpiredException(String message) {
-        super(message);
+    public RefreshTokenExpiredException() {
         this.errorCode = ErrorCode.REFRESH_TOKEN_EXPIRED;
     }
 }

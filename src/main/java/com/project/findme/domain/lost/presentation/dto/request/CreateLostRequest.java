@@ -30,7 +30,7 @@ public class CreateLostRequest {
     private List<String> tags;
 
     @NotNull(message = "안심거래가 선택되지 않았습니다")
-    private boolean safeTransaction;
+    private boolean isSafe;
 
     @NotBlank(message = "장소가 선택되지 않았습니다")
     private String place;
@@ -48,7 +48,7 @@ public class CreateLostRequest {
                 .description(description)
                 .category(category)
                 .tags(tags)
-                .safeTransaction(safeTransaction)
+                .safeTransaction(isSafe)
                 .place(place)
                 .latitude(latitude)
                 .longitude(longitude)

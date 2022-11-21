@@ -8,7 +8,7 @@ public class PasswordNotMatchException extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public PasswordNotMatchException(String message) {
+    public PasswordNotMatchException() {
         this.errorCode = ErrorCode.PASSWORD_NOT_MATCH;
     }
 }

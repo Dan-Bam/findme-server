@@ -5,6 +5,7 @@ import com.project.findme.domain.image.repository.LostImageRepository;
 import com.project.findme.domain.image.service.S3Service;
 import com.project.findme.domain.lost.entity.Lost;
 import com.project.findme.domain.lost.exception.LostNotFoundException;
+import com.project.findme.domain.lost.facade.LostFacade;
 import com.project.findme.domain.lost.presentation.dto.request.CreateLostRequest;
 import com.project.findme.domain.lost.presentation.dto.request.UpdateLostRequest;
 import com.project.findme.domain.lost.presentation.dto.response.LostResponse;
@@ -27,20 +28,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LostServiceImpl implements LostService {
 
-    private final LostRepository lostRepository;
     private final UserUtil userUtil;
     private final S3Service s3Service;
-    private final LostImageRepository lostImageRepository;
+    private final LostFacade lostFacade;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void createLost(CreateLostRequest createLostRequest, List<MultipartFile> multipartFiles) {
-        User user = userUtil.currentUser();
         List<String> uploadFile = s3Service.upload(multipartFiles, "lost/" + createLostRequest.getCategory() + "/");
-        Lost lost = lostRepository.save(createLostRequest.toEntity(user));
+        Lost lost = lostFacade.saveLost(createLostRequest);
 
         uploadFile.forEach(file -> {
-            lostImageRepository.save(saveToUrl(lost, createLostRequest.getCategory().toString(), file));
+            lostFacade.saveLostImage(saveToUrl(lost, createLostRequest.getCategory().toString(), file));
         });
     }
 
@@ -56,17 +55,14 @@ public class LostServiceImpl implements LostService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateLost(Long lostId, UpdateLostRequest updateLostRequest, List<MultipartFile> multipartFileList) {
-        Lost lost = findLostById(lostId);
+        Lost lost = lostFacade.findLostById(lostId);
 
-        lostImageRepository.findLostImageByLostId(lost.getId()).forEach(file -> {
-            s3Service.deleteFile(file.getImageUrl().substring(57));
-            lostImageRepository.deleteByLostId(lost.getId());
-        });
+        lostFacade.deleteLostImagesById(lostId);
 
         List<String> uploadFile = s3Service.upload(multipartFileList, "lost/" + updateLostRequest.getCategory() + "/");
 
         uploadFile.forEach(file -> {
-            lostImageRepository.save(saveToUrl(lost, updateLostRequest.getCategory().toString(), file));
+            lostFacade.saveLostImage(saveToUrl(lost, updateLostRequest.getCategory().toString(), file));
         });
 
         lost.updateLost(updateLostRequest.getTitle(), updateLostRequest.getDescription(), updateLostRequest.getCategory(), updateLostRequest.getTags(), updateLostRequest.getPlace(), updateLostRequest.getLatitude(), updateLostRequest.getLongitude());
@@ -75,70 +71,28 @@ public class LostServiceImpl implements LostService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteLost(Long lostId) {
-        Lost lost = findLostById(lostId);
-        List<LostImage> lostImages = lostImageRepository.findLostImageByLostId(lostId);
+        Lost lost = lostFacade.findLostById(lostId);
 
-        lostImages.forEach(file -> {
-            s3Service.deleteFile(file.getImageUrl().substring(57));
-            lostImageRepository.deleteByLostId(lost.getId());
-        });
+        lostFacade.deleteLostImagesById(lost.getId());
 
-        lostRepository.delete(lost);
+        lostFacade.deleteLostById(lostId);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public LostResponse findById(Long lostId) {
-        Lost lost = findLostById(lostId);
-
-        return LostResponse.builder()
-                .id(lost.getId())
-                .title(lost.getTitle())
-                .description(lost.getDescription())
-                .category(lost.getCategory().getName())
-                .lostImages(lostImageRepository.findLostImageByLostId(lostId))
-                .tags(lost.getTags())
-                .place(lost.getPlace())
-                .latitude(lost.getLatitude())
-                .longitude(lost.getLongitude())
-                .build();
+        return lostFacade.findLostDetailById(lostFacade.findLostById(lostId));
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<LostResponse> findAll() {
-        return lostRepository.findAll().stream().map(lost -> LostResponse.builder()
-                .id(lost.getId())
-                .title(lost.getTitle())
-                .description(lost.getDescription())
-                .category(lost.getCategory().getName())
-                .tags(lost.getTags())
-                .lostImages(lostImageRepository.findLostImageByLostId(lost.getId()))
-                .place(lost.getPlace())
-                .latitude(lost.getLatitude())
-                .longitude(lost.getLongitude())
-                .build()).collect(Collectors.toList());
+        return lostFacade.findAllLost();
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<LostResponse> findByCategory(String category) {
-        return lostRepository.findLostByCategory(Category.findByName(category)).stream().map(lost -> LostResponse.builder()
-                .id(lost.getId())
-                .title(lost.getTitle())
-                .description(lost.getDescription())
-                .category(lost.getCategory().getName())
-                .tags(lost.getTags())
-                .lostImages(lostImageRepository.findLostImageByLostId(lost.getId()))
-                .place(lost.getPlace())
-                .latitude(lost.getLatitude())
-                .longitude(lost.getLongitude())
-                .build()).collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public Lost findLostById(Long lostId) {
-        return lostRepository.findById(lostId)
-                .orElseThrow(() -> new LostNotFoundException("분실물을 찾을 수 없습니다."));
+        return lostFacade.findLostByCategory(category);
     }
 }

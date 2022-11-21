@@ -20,6 +20,6 @@ public class AuthDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         return userRepository.findById(id)
                 .map(AuthDetails::new)
-                .orElseThrow(() -> new UserNotFoundException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(UserNotFoundException::new);
     }
 }

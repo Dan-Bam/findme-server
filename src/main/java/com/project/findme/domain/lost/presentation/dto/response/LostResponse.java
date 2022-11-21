@@ -19,7 +19,7 @@ public class LostResponse {
 
     private String description;
 
-    private List<LostImage> lostImages;
+    private List<String> lostImages;
 
     private String category;
 
