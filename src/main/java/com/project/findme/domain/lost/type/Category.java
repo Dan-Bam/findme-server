@@ -1,29 +1,35 @@
 package com.project.findme.domain.lost.type;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.stream.Stream;
+import java.util.Arrays;
 
 @Getter
 @AllArgsConstructor
 public enum Category {
 
-    ELECTRONIC("전자기기"),
-    PRECIOUS_METAL("귀금속"),
-    CLOTHING("의류"),
-    HOUSEHOLD_GOODS("생활용품"),
-    OTHER("기타")
-    ;
+    RING("반지"),
+    BRACE("팔"),
+    NECKLACE("목걸이"),
+    WATCH("시계"),
+    PHONE("핸드폰"),
+    LAPTOP("노트북"),
+    BAG("가방"),
+    WEARABLE("웨어러블"),
+    EARPHONE("이어폰"),
+    GLASSES("안경"),
+    WALLET("지갑"),
+    USB("usb"),
+    JACKET("자켓"),
+    BOOK("책");
 
     private final String name;
 
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static Category findByName(String name) {
-        return Stream.of(Category.values())
-                .filter(it -> it.name.equals(name))
+    public static Category findName(String name) {
+        return Arrays.stream(Category.values()).filter(category -> category.name.equals(name))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow();
     }
+
 }
