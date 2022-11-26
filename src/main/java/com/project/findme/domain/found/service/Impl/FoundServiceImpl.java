@@ -1,11 +1,11 @@
 package com.project.findme.domain.found.service.Impl;
 
-import com.project.findme.domain.found.entity.Found;
+import com.project.findme.domain.found.domain.Found;
 import com.project.findme.domain.found.facade.FoundFacade;
 import com.project.findme.domain.found.presentation.dto.request.CreateFoundRequest;
 import com.project.findme.domain.found.presentation.dto.request.UpdateFoundRequest;
 import com.project.findme.domain.found.service.FoundService;
-import com.project.findme.domain.image.entity.FoundImage;
+import com.project.findme.domain.image.domain.FoundImage;
 import com.project.findme.domain.image.service.S3Service;
 import com.project.findme.domain.lost.type.Category;
 import lombok.RequiredArgsConstructor;

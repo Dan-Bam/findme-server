@@ -1,8 +1,7 @@
 package com.project.findme.domain.lost.repository;
 
-import com.project.findme.domain.lost.entity.Lost;
+import com.project.findme.domain.lost.domain.Lost;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.project.findme.domain.lost.service;
 
-import com.project.findme.domain.image.entity.LostImage;
-import com.project.findme.domain.lost.entity.Lost;
+import com.project.findme.domain.image.domain.LostImage;
+import com.project.findme.domain.lost.domain.Lost;
 import com.project.findme.domain.lost.presentation.dto.request.CreateLostRequest;
 import com.project.findme.domain.lost.presentation.dto.request.UpdateLostRequest;
 import com.project.findme.domain.lost.presentation.dto.response.LostResponse;

@@ -1,4 +1,4 @@
-package com.project.findme.domain.found.presentation.controller;
+package com.project.findme.domain.found.presentation;
 
 import com.project.findme.domain.found.presentation.dto.request.CreateFoundRequest;
 import com.project.findme.domain.found.presentation.dto.request.UpdateFoundRequest;

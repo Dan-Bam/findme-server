@@ -1,7 +1,7 @@
-package com.project.findme.domain.image.entity;
+package com.project.findme.domain.image.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.project.findme.domain.lost.entity.Lost;
+import com.project.findme.domain.lost.domain.Lost;
 import lombok.*;
 
 import javax.persistence.*;

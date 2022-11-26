@@ -1,6 +1,6 @@
-package com.project.findme.domain.image.repository;
+package com.project.findme.domain.image.domain.repository;
 
-import com.project.findme.domain.image.entity.FoundImage;
+import com.project.findme.domain.image.domain.FoundImage;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

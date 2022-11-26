@@ -1,7 +1,7 @@
 package com.project.findme.domain.lost.presentation.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.project.findme.domain.lost.entity.Lost;
+import com.project.findme.domain.lost.domain.Lost;
 import com.project.findme.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.project.findme.domain.message.entity;
+package com.project.findme.domain.message.domain;
 
 import lombok.*;
 import org.hibernate.validator.constraints.Length;

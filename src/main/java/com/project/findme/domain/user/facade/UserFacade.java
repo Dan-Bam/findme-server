@@ -1,7 +1,5 @@
 package com.project.findme.domain.user.facade;
 
-import com.project.findme.domain.image.repository.LostImageRepository;
-import com.project.findme.domain.lost.repository.LostRepository;
 import com.project.findme.domain.user.entity.User;
 import com.project.findme.domain.user.exception.PasswordNotMatchException;
 import com.project.findme.domain.user.exception.UserNotFoundException;

@@ -1,4 +1,4 @@
-package com.project.findme.domain.message.presentation.controller;
+package com.project.findme.domain.message.presentation;
 
 import com.project.findme.domain.message.presentation.dto.CheckAuthKeyRequest;
 import com.project.findme.domain.message.presentation.dto.PhoneNumberRequest;

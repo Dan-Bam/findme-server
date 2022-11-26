@@ -1,4 +1,4 @@
-package com.project.findme.domain.found.entity;
+package com.project.findme.domain.found.domain;
 
 import com.project.findme.domain.user.entity.User;
 import lombok.*;

@@ -1,12 +1,12 @@
 package com.project.findme.domain.message.service.Impl;
 
-import com.project.findme.domain.message.entity.MessageAuth;
+import com.project.findme.domain.message.domain.MessageAuth;
 import com.project.findme.domain.message.exception.AuthKeyNotMatchException;
 import com.project.findme.domain.message.exception.PhoneNumberNotFound;
 import com.project.findme.domain.message.presentation.dto.CheckAuthKeyRequest;
 import com.project.findme.domain.message.presentation.dto.PhoneNumberRequest;
 import com.project.findme.domain.message.config.CoolsmsProperties;
-import com.project.findme.domain.message.repository.MessageAuthRepository;
+import com.project.findme.domain.message.domain.repository.MessageAuthRepository;
 import com.project.findme.domain.message.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

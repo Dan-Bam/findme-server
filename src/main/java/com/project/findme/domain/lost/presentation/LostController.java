@@ -1,4 +1,4 @@
-package com.project.findme.domain.lost.presentation.controller;
+package com.project.findme.domain.lost.presentation;
 
 import com.project.findme.domain.lost.presentation.dto.request.CreateLostRequest;
 import com.project.findme.domain.lost.presentation.dto.request.UpdateLostRequest;

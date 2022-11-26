@@ -1,8 +1,8 @@
 package com.project.findme.domain.lost.service.Impl;
 
-import com.project.findme.domain.image.entity.LostImage;
+import com.project.findme.domain.image.domain.LostImage;
 import com.project.findme.domain.image.service.S3Service;
-import com.project.findme.domain.lost.entity.Lost;
+import com.project.findme.domain.lost.domain.Lost;
 import com.project.findme.domain.lost.facade.LostFacade;
 import com.project.findme.domain.lost.presentation.dto.request.CreateLostRequest;
 import com.project.findme.domain.lost.presentation.dto.request.UpdateLostRequest;

@@ -1,6 +1,6 @@
-package com.project.findme.domain.found.repository;
+package com.project.findme.domain.found.domain.repository;
 
-import com.project.findme.domain.found.entity.Found;
+import com.project.findme.domain.found.domain.Found;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

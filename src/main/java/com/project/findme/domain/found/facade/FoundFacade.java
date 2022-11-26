@@ -1,12 +1,12 @@
 package com.project.findme.domain.found.facade;
 
-import com.project.findme.domain.found.entity.Found;
+import com.project.findme.domain.found.domain.Found;
 import com.project.findme.domain.found.exception.FoundNotFoundException;
 import com.project.findme.domain.found.presentation.dto.request.CreateFoundRequest;
 import com.project.findme.domain.found.presentation.dto.response.FoundResponse;
-import com.project.findme.domain.found.repository.FoundRepository;
-import com.project.findme.domain.image.entity.FoundImage;
-import com.project.findme.domain.image.repository.FoundImageRepository;
+import com.project.findme.domain.found.domain.repository.FoundRepository;
+import com.project.findme.domain.image.domain.FoundImage;
+import com.project.findme.domain.image.domain.repository.FoundImageRepository;
 import com.project.findme.domain.image.service.S3Service;
 import com.project.findme.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;

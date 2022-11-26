@@ -1,9 +1,9 @@
 package com.project.findme.domain.found.service;
 
-import com.project.findme.domain.found.entity.Found;
+import com.project.findme.domain.found.domain.Found;
 import com.project.findme.domain.found.presentation.dto.request.CreateFoundRequest;
 import com.project.findme.domain.found.presentation.dto.request.UpdateFoundRequest;
-import com.project.findme.domain.image.entity.FoundImage;
+import com.project.findme.domain.image.domain.FoundImage;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
