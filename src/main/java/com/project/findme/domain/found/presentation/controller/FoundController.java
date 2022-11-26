@@ -1,7 +1,7 @@
 package com.project.findme.domain.found.presentation.controller;
 
-import com.project.findme.domain.found.presentation.dto.CreateFoundRequest;
-import com.project.findme.domain.found.presentation.dto.UpdateFoundRequest;
+import com.project.findme.domain.found.presentation.dto.request.CreateFoundRequest;
+import com.project.findme.domain.found.presentation.dto.request.UpdateFoundRequest;
 import com.project.findme.domain.found.service.FoundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
