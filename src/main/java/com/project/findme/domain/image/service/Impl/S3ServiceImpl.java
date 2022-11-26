@@ -24,7 +24,7 @@ public class S3ServiceImpl implements S3Service {
     private final S3BucketProperties s3BucketProperties;
 
     @Override
-    public List<String> upload(List<MultipartFile> multipartFiles, String dirName) {
+    public List<String> uploadFiles(List<MultipartFile> multipartFiles, String dirName) {
 
         List<String> fileNameList = new ArrayList<>();
 
@@ -47,6 +47,24 @@ public class S3ServiceImpl implements S3Service {
         });
 
         return fileNameList;
+    }
+
+    @Override
+    public String uploadFile(MultipartFile multipartFiles, String dirName) {
+
+        String fileName = createFileName(multipartFiles.getOriginalFilename());
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(multipartFiles.getSize());
+        objectMetadata.setContentType(multipartFiles.getContentType());
+
+        try(InputStream inputStream = multipartFiles.getInputStream()) {
+            amazonS3.putObject(new PutObjectRequest(s3BucketProperties.getBucket(), dirName + fileName, inputStream, objectMetadata)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
+        } catch (IOException e) {
+            throw new IllegalStateException("파일 업로드에 실패했습니다");
+        }
+
+        return fileName;
     }
 
     @Override

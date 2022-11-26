@@ -6,11 +6,10 @@ import java.util.List;
 
 public interface S3Service {
 
-    List<String> upload(List<MultipartFile> multipartFiles, String dirName);
-
+    List<String> uploadFiles(List<MultipartFile> multipartFiles, String dirName);
+    String uploadFile(MultipartFile multipartFiles, String dirName);
     void deleteFile(String fileName);
-
     String createFileName(String fileName);
-
     String getFileExtension(String fileName);
+
 }
