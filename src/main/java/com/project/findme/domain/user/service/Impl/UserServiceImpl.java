@@ -1,48 +1,72 @@
 package com.project.findme.domain.user.service.Impl;
 
+import com.project.findme.domain.found.facade.FoundFacade;
+import com.project.findme.domain.found.presentation.dto.response.FoundResponse;
+import com.project.findme.domain.image.service.S3Service;
+import com.project.findme.domain.lost.facade.LostFacade;
+import com.project.findme.domain.lost.presentation.dto.response.LostResponse;
 import com.project.findme.domain.user.entity.User;
 import com.project.findme.domain.user.exception.InvalidTokenException;
 import com.project.findme.domain.user.exception.RefreshTokenExpiredException;
 import com.project.findme.domain.user.facade.UserFacade;
+import com.project.findme.domain.user.presentation.dto.request.UpdateUserInfoRequest;
 import com.project.findme.domain.user.presentation.dto.response.ReissueTokenResponse;
+import com.project.findme.domain.user.presentation.dto.response.UserInfoResponse;
 import com.project.findme.domain.user.service.UserService;
 import com.project.findme.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Log4j2
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    private final LostFacade lostFacade;
+    private final FoundFacade foundFacade;
     private final UserFacade userFacade;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final S3Service s3Service;
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public ReissueTokenResponse reissueToken(String refreshToken) {
-        if(jwtTokenProvider.isExpired(refreshToken)) {
-            throw new RefreshTokenExpiredException();
-        }
+    public List<LostResponse> findMyLost() {
+        return lostFacade.findMyLost();
+    }
 
-        User user = userFacade.findUserById(jwtTokenProvider.getUserId(refreshToken));
+    @Override
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public List<FoundResponse> findMyFound() {
+        return foundFacade.findMyFound();
+    }
 
-        if(!user.getRefreshToken().equals(refreshToken)) {
-            throw new InvalidTokenException();
-        }
-
-        String newAccessToken = jwtTokenProvider.generateAccessToken(user.getId());
-        String newRefreshToken = jwtTokenProvider.generateRefreshToken(user.getId());
-
-        user.updateRefreshToken(newRefreshToken);
-
-        return ReissueTokenResponse.builder()
-                .accessToken(newAccessToken)
-                .refreshToken(newRefreshToken)
-                .expiredAt(jwtTokenProvider.getExpiredTime())
+    @Override
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public UserInfoResponse findMyInfo() {
+        User user = userFacade.currentUser();
+        return UserInfoResponse.builder()
+                .userName(user.getUserName())
+                .address(user.getAddress())
+                .phoneNumber(user.getPhoneNumber())
+                .imageUrl(user.getImageUrl())
                 .build();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateUserInfo(UpdateUserInfoRequest updateUserInfoRequest, MultipartFile multipartFile) {
+        User user = userFacade.currentUser();
+
+        if(!user.getImageUrl().isEmpty()) {
+            s3Service.deleteFile(user.getImageUrl().substring(58));
+        }
+
+        String uploadFile = s3Service.uploadFile(multipartFile, "USER/" + user.getId() + "/");
+        user.updateUserInfo(updateUserInfoRequest.getUserName(), updateUserInfoRequest.getAddress(), updateUserInfoRequest.getPhoneNumber(), user.getId() + "/" + uploadFile);
     }
 
     @Override

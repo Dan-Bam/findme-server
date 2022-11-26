@@ -29,6 +29,8 @@ public class User {
 
     private String userName;
 
+    private String imageUrl;
+
     private String refreshToken;
 
     @ElementCollection
@@ -40,11 +42,11 @@ public class User {
         this.refreshToken = refreshToken;
     }
 
-    public void updateUserName(String userName) {
+    public void updateUserInfo(String userName, String address, String phoneNumber, String imageUrl) {
         this.userName = userName;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.imageUrl = "https://kdn-findme-bucket.s3.ap-northeast-2.amazonaws.com/USER/" + imageUrl;
     }
 
-    public void updateAddress(String address) {
-        this.address = address;
-    }
 }

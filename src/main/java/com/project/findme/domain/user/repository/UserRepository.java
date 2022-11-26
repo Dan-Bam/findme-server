@@ -9,4 +9,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     Optional<User> findById(String id);
     boolean existsById(String id);
+
 }
