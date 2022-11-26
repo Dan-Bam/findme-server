@@ -4,9 +4,9 @@ import com.project.findme.domain.user.presentation.dto.request.SignInRequest;
 import com.project.findme.domain.user.presentation.dto.request.SignUpRequest;
 import com.project.findme.domain.user.presentation.dto.response.ReissueTokenResponse;
 import com.project.findme.domain.user.presentation.dto.response.SignInResponse;
+import com.project.findme.domain.user.service.ReissueTokenService;
 import com.project.findme.domain.user.service.SignInService;
 import com.project.findme.domain.user.service.SignUpService;
-import com.project.findme.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +21,11 @@ public class AuthController {
 
     private final SignUpService signUpService;
     private final SignInService signInService;
-    private final UserService userService;
+    private final ReissueTokenService reissueTokenService;
 
     @PostMapping("/signup")
     public ResponseEntity<Void> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
-        signUpService.signUpId(signUpRequest);
+        signUpService.signUp(signUpRequest);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -37,7 +37,7 @@ public class AuthController {
 
     @PatchMapping("reissue")
     public ResponseEntity<ReissueTokenResponse> reissueToken(@RequestHeader("RefreshToken") String refreshToken) {
-        ReissueTokenResponse newToken = userService.reissueToken(refreshToken);
+        ReissueTokenResponse newToken = reissueTokenService.reissueToken(refreshToken);
         return new ResponseEntity<>(newToken, HttpStatus.OK);
     }
 
