@@ -1,6 +1,5 @@
 package com.project.findme.domain.lost.presentation.dto.response;
 
-import com.project.findme.domain.image.entity.LostImage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,11 +18,13 @@ public class LostResponse {
 
     private String description;
 
-    private List<String> lostImages;
-
     private String category;
 
+    private List<String> imageUrls;
+
     private List<String> tags;
+
+    private Boolean isSafe;
 
     private String place;
 

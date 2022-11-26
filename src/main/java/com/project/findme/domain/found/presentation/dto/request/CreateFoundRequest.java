@@ -1,7 +1,7 @@
-package com.project.findme.domain.found.presentation.dto;
+package com.project.findme.domain.found.presentation.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.findme.domain.found.entity.Found;
-import com.project.findme.domain.lost.type.Category;
 import com.project.findme.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,15 +23,15 @@ public class CreateFoundRequest {
     @NotBlank(message = "설명이 입력되지 않았습니다")
     private String description;
 
-
     @NotNull(message = "카테고리가 입력되지 않았습니다")
-    private Category category;
+    private String category;
 
     @NotNull(message = "태그가 입력되지 않았습니다")
     private List<String> tags;
 
+    @JsonProperty("isSafe")
     @NotNull(message = "안심거래가 선택되지 않았습니다")
-    private boolean isSafe;
+    private Boolean isSafe;
 
     @NotBlank(message = "장소가 선택되지 않았습니다")
     private String place;
@@ -50,7 +50,7 @@ public class CreateFoundRequest {
                 .description(description)
                 .category(category)
                 .tags(tags)
-                .safeTransaction(isSafe)
+                .isSafe(isSafe)
                 .place(place)
                 .latitude(latitude)
                 .longitude(longitude)
