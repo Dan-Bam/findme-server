@@ -4,6 +4,6 @@ import com.project.findme.domain.user.presentation.dto.request.SignUpRequest;
 
 public interface SignUpService {
 
-    void signUpId(SignUpRequest signUpRequest);
+    void signUp(SignUpRequest signUpRequest);
 
 }
