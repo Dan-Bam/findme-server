@@ -8,6 +8,7 @@ import com.project.findme.domain.lost.presentation.dto.request.CreateLostRequest
 import com.project.findme.domain.lost.presentation.dto.request.UpdateLostRequest;
 import com.project.findme.domain.lost.presentation.dto.response.LostResponse;
 import com.project.findme.domain.lost.service.LostService;
+import com.project.findme.domain.lost.type.Category;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -27,12 +28,8 @@ public class LostServiceImpl implements LostService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void createLost(CreateLostRequest createLostRequest, List<MultipartFile> multipartFiles) {
-        List<String> uploadFile = s3Service.upload(multipartFiles, "lost/" + createLostRequest.getCategory() + "/");
         Lost lost = lostFacade.saveLost(createLostRequest);
-
-        uploadFile.forEach(file -> {
-            lostFacade.saveLostImage(saveToUrl(lost, createLostRequest.getCategory().toString(), file));
-        });
+        uploadImageToS3(multipartFiles, lost);
     }
 
     @Override
@@ -40,33 +37,32 @@ public class LostServiceImpl implements LostService {
     public LostImage saveToUrl(Lost lost, String category, String uploadFileUrl) {
         return LostImage.builder()
                 .lost(lost)
-                .imageUrl("https://findme-s3-bucket.s3.ap-northeast-2.amazonaws.com/lost/" + category + "/" + uploadFileUrl)
+                .imageUrl("https://findme-s3-bucket.s3.ap-northeast-2.amazonaws.com/LOST/" + Category.findName(category) + "/USER/" + lost.getId() + "/" + uploadFileUrl)
                 .build();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateLost(Long lostId, UpdateLostRequest updateLostRequest, List<MultipartFile> multipartFileList) {
+    public void updateLost(Long lostId, UpdateLostRequest updateLostRequest, List<MultipartFile> multipartFiles) {
         Lost lost = lostFacade.findLostById(lostId);
-
         lostFacade.deleteLostImagesById(lostId);
 
-        List<String> uploadFile = s3Service.upload(multipartFileList, "lost/" + updateLostRequest.getCategory() + "/");
+        uploadImageToS3(multipartFiles, lost);
+        lost.updateLost(updateLostRequest.getTitle(), updateLostRequest.getDescription(), updateLostRequest.getTags(), updateLostRequest.getIsSafe(), updateLostRequest.getPlace(), updateLostRequest.getLatitude(), updateLostRequest.getLongitude());
+    }
 
-        uploadFile.forEach(file -> {
-            lostFacade.saveLostImage(saveToUrl(lost, updateLostRequest.getCategory().toString(), file));
-        });
+    private void uploadImageToS3(List<MultipartFile> multipartFiles, Lost lost) {
+        List<String> uploadFile = s3Service.uploadFiles(
+                multipartFiles, "LOST/" + Category.findName(lost.getCategory()) + "/USER/" + lost.getId() + "/");
 
-        lost.updateLost(updateLostRequest.getTitle(), updateLostRequest.getDescription(), updateLostRequest.getCategory(), updateLostRequest.getTags(), updateLostRequest.getPlace(), updateLostRequest.getLatitude(), updateLostRequest.getLongitude());
+        uploadFile.forEach(file -> lostFacade.saveLostImage(saveToUrl(lost, lost.getCategory(), file)));
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteLost(Long lostId) {
         Lost lost = lostFacade.findLostById(lostId);
-
         lostFacade.deleteLostImagesById(lost.getId());
-
         lostFacade.deleteLostById(lost);
     }
 
@@ -84,7 +80,8 @@ public class LostServiceImpl implements LostService {
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public List<LostResponse> findByCategory(String category) {
-        return lostFacade.findLostByCategory(category);
+    public List<LostResponse> findByCategoryAndPlace(String category, String place) {
+        return lostFacade.findByCategoryAndPlace(category, place);
     }
+
 }

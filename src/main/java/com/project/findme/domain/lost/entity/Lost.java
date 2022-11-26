@@ -1,6 +1,5 @@
 package com.project.findme.domain.lost.entity;
 
-import com.project.findme.domain.lost.type.Category;
 import com.project.findme.domain.user.entity.User;
 import lombok.*;
 
@@ -28,14 +27,14 @@ public class Lost {
 
     private String description;
 
-    @Enumerated(EnumType.STRING)
-    private Category category;
+    private String category;
 
     @ElementCollection
     @CollectionTable(name = "lost_tags", joinColumns = @JoinColumn(name = "userId"))
     private List<String> tags = new ArrayList<>();
 
-    private boolean safeTransaction;
+    @Column(name = "is_safe")
+    private boolean isSafe;
 
     private String place;
 
@@ -43,11 +42,11 @@ public class Lost {
 
     private String longitude;
 
-    public void updateLost(String title, String description, Category category, List<String> tags,String place, String latitude, String longitude) {
+    public void updateLost(String title, String description, List<String> tags, boolean isSafe, String place, String latitude, String longitude) {
         this.title = title;
         this.description = description;
-        this.category = category;
         this.tags = tags;
+        this.isSafe = isSafe;
         this.place = place;
         this.latitude = latitude;
         this.longitude = longitude;

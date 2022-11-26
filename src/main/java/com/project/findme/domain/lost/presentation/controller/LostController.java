@@ -20,10 +20,11 @@ public class LostController {
 
     private final LostService lostService;
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<Void> createLost(
             @Valid @RequestPart(name = "lostDto") CreateLostRequest createLostRequest,
-            @RequestPart List<MultipartFile> files) {
+            @RequestPart List<MultipartFile> files
+    ) {
         lostService.createLost(createLostRequest, files);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -31,8 +32,9 @@ public class LostController {
     @PatchMapping("{lostId}")
     public ResponseEntity<Void> updateLost(
             @PathVariable Long lostId,
-            @Valid @RequestPart(name = "lostDto")UpdateLostRequest updateLostRequest,
-            @RequestPart List<MultipartFile> files) {
+            @Valid @RequestPart(name = "lostDto") UpdateLostRequest updateLostRequest,
+            @RequestPart List<MultipartFile> files
+    ) {
         lostService.updateLost(lostId, updateLostRequest, files);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -45,19 +47,18 @@ public class LostController {
 
     @GetMapping("{lostId}")
     public ResponseEntity<LostResponse> findByLostId(@PathVariable("lostId") Long lostId) {
-        LostResponse responseDto = lostService.findById(lostId);
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return new ResponseEntity<>(lostService.findById(lostId), HttpStatus.OK);
     }
 
     @GetMapping("findAll")
     public ResponseEntity<List<LostResponse>> findLostAll() {
-        List<LostResponse> responseDto = lostService.findAll();
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return new ResponseEntity<>(lostService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("")
-    public ResponseEntity<List<LostResponse>> findByCategory(@RequestParam("category") String category) {
-        List<LostResponse> responseDto = lostService.findByCategory(category);
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<List<LostResponse>> findByCategoryAndPlace(
+            @RequestParam("category") String category,
+            @RequestParam("place") String place) {
+        return new ResponseEntity<>(lostService.findByCategoryAndPlace(category, place), HttpStatus.OK);
     }
 }
