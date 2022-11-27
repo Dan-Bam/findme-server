@@ -7,7 +7,7 @@ import com.project.findme.domain.found.presentation.dto.response.FoundResponse;
 import com.project.findme.domain.found.domain.repository.FoundRepository;
 import com.project.findme.domain.image.domain.FoundImage;
 import com.project.findme.domain.image.domain.repository.FoundImageRepository;
-import com.project.findme.domain.image.service.S3Service;
+import com.project.findme.infrastructure.s3.service.S3Service;
 import com.project.findme.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -2,7 +2,7 @@ package com.project.findme.domain.lost.facade;
 
 import com.project.findme.domain.image.domain.LostImage;
 import com.project.findme.domain.image.domain.repository.LostImageRepository;
-import com.project.findme.domain.image.service.S3Service;
+import com.project.findme.infrastructure.s3.service.S3Service;
 import com.project.findme.domain.lost.domain.Lost;
 import com.project.findme.domain.lost.exception.LostNotFoundException;
 import com.project.findme.domain.lost.presentation.dto.request.CreateLostRequest;

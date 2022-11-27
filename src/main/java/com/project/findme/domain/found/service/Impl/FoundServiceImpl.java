@@ -6,14 +6,12 @@ import com.project.findme.domain.found.presentation.dto.request.CreateFoundReque
 import com.project.findme.domain.found.presentation.dto.request.UpdateFoundRequest;
 import com.project.findme.domain.found.service.FoundService;
 import com.project.findme.domain.image.domain.FoundImage;
-import com.project.findme.domain.image.service.S3Service;
+import com.project.findme.infrastructure.s3.service.S3Service;
 import com.project.findme.domain.lost.type.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

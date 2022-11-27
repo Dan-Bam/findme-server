@@ -1,9 +1,9 @@
-package com.project.findme.domain.image.service.Impl;
+package com.project.findme.infrastructure.s3.service.Impl;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
-import com.project.findme.domain.image.config.S3BucketProperties;
-import com.project.findme.domain.image.service.S3Service;
+import com.project.findme.infrastructure.s3.config.S3BucketProperties;
+import com.project.findme.infrastructure.s3.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;

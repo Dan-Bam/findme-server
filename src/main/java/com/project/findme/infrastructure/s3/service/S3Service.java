@@ -1,4 +1,4 @@
-package com.project.findme.domain.image.service;
+package com.project.findme.infrastructure.s3.service;
 
 import org.springframework.web.multipart.MultipartFile;
 

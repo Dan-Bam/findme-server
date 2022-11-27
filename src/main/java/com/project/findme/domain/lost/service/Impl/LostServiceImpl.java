@@ -1,7 +1,7 @@
 package com.project.findme.domain.lost.service.Impl;
 
 import com.project.findme.domain.image.domain.LostImage;
-import com.project.findme.domain.image.service.S3Service;
+import com.project.findme.infrastructure.s3.service.S3Service;
 import com.project.findme.domain.lost.domain.Lost;
 import com.project.findme.domain.lost.facade.LostFacade;
 import com.project.findme.domain.lost.presentation.dto.request.CreateLostRequest;
@@ -10,7 +10,6 @@ import com.project.findme.domain.lost.presentation.dto.response.LostResponse;
 import com.project.findme.domain.lost.service.LostService;
 import com.project.findme.domain.lost.type.Category;
 import com.project.findme.infrastructure.feign.client.MakeImageFeign;
-import com.project.findme.infrastructure.feign.dto.request.MakeImageRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
