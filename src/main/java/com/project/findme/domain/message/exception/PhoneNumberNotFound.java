@@ -1,6 +1,6 @@
 package com.project.findme.domain.message.exception;
 
-import com.project.findme.global.exception.ErrorCode;
+import com.project.findme.global.error.type.ErrorCode;
 import lombok.Getter;
 
 @Getter
