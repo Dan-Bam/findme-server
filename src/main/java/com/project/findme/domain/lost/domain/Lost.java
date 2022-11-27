@@ -28,8 +28,10 @@ public class Lost {
 
     private String description;
 
+    @Enumerated(EnumType.STRING)
     private Category category;
 
+    @Builder.Default
     @ElementCollection
     @CollectionTable(name = "lost_tags", joinColumns = @JoinColumn(name = "userId"))
     private List<String> tags = new ArrayList<>();

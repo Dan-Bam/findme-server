@@ -1,6 +1,7 @@
 package com.project.findme.domain.found.presentation.dto.response;
 
 import com.project.findme.domain.found.domain.Found;
+import com.project.findme.domain.lost.type.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,7 +43,7 @@ public class FoundResponse {
                 .isMine(isMine)
                 .title(found.getTitle())
                 .description(found.getDescription())
-                .category(found.getCategory())
+                .category(found.getCategory().getName())
                 .imageUrl(imageUrl)
                 .tags(found.getTags())
                 .isSafe(found.isSafe())

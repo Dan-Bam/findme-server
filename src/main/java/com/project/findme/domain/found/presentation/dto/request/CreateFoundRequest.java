@@ -2,6 +2,7 @@ package com.project.findme.domain.found.presentation.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.findme.domain.found.domain.Found;
+import com.project.findme.domain.lost.type.Category;
 import com.project.findme.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,7 +49,7 @@ public class CreateFoundRequest {
                 .user(user)
                 .title(title)
                 .description(description)
-                .category(category)
+                .category(Category.findName(category))
                 .tags(tags)
                 .isSafe(isSafe)
                 .place(place)

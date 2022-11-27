@@ -1,5 +1,6 @@
 package com.project.findme.domain.found.domain;
 
+import com.project.findme.domain.lost.type.Category;
 import com.project.findme.domain.user.entity.User;
 import lombok.*;
 
@@ -26,8 +27,10 @@ public class Found {
 
     private String description;
 
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
+    @Builder.Default
     @ElementCollection
     @CollectionTable(name = "found_tags", joinColumns = @JoinColumn(name = "userId"))
     private List<String> tags = new ArrayList<>();
