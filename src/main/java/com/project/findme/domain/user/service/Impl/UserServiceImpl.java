@@ -66,8 +66,12 @@ public class UserServiceImpl implements UserService {
             s3Service.deleteFile(user.getImageUrl().substring(58));
         }
 
-        String uploadFile = s3Service.uploadFile(multipartFile, "USER/" + user.getId() + "/");
-        user.updateUserInfo(updateUserInfoRequest.getUserName(), updateUserInfoRequest.getAddress(), updateUserInfoRequest.getPhoneNumber(), user.getId() + "/" + uploadFile);
+        if(!multipartFile.isEmpty()) {
+            String uploadFile = s3Service.uploadFile(multipartFile, "USER/" + user.getId() + "/");
+            user.updateUserInfo(updateUserInfoRequest.getUserName(), updateUserInfoRequest.getAddress(), updateUserInfoRequest.getPhoneNumber(), user.getId() + "/" + uploadFile);
+        }
+
+        user.updateUserInfo(updateUserInfoRequest.getUserName(), updateUserInfoRequest.getAddress(), updateUserInfoRequest.getPhoneNumber(), user.getId() + "/" + user.getImageUrl());
     }
 
     @Override
