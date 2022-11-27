@@ -22,20 +22,20 @@ public class LostController {
 
     @PostMapping
     public ResponseEntity<Void> createLost(
-            @Valid @RequestPart(name = "lostDto") CreateLostRequest createLostRequest,
-            @RequestPart List<MultipartFile> files
+            @RequestPart("lostDto") @Valid CreateLostRequest createLostRequest,
+            @RequestPart MultipartFile file
     ) {
-        lostService.createLost(createLostRequest, files);
+        lostService.createLost(createLostRequest, file);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PatchMapping("{lostId}")
     public ResponseEntity<Void> updateLost(
             @PathVariable Long lostId,
-            @Valid @RequestPart(name = "lostDto") UpdateLostRequest updateLostRequest,
-            @RequestPart List<MultipartFile> files
+            @Valid @RequestPart("lostDto") UpdateLostRequest updateLostRequest,
+            @RequestPart MultipartFile file
     ) {
-        lostService.updateLost(lostId, updateLostRequest, files);
+        lostService.updateLost(lostId, updateLostRequest, file);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -57,7 +57,7 @@ public class LostController {
 
     @GetMapping
     public ResponseEntity<List<LostResponse>> findByCategoryAndPlace(
-            @RequestParam("category") String category,
+            @RequestParam(value = "category", required = false) String category,
             @RequestParam("place") String place) {
         return new ResponseEntity<>(lostService.findByCategoryAndPlace(category, place), HttpStatus.OK);
     }

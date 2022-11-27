@@ -22,9 +22,9 @@ public class FoundController {
     @PostMapping
     public ResponseEntity<Void> createFound(
             @RequestPart("foundDto") @Valid CreateFoundRequest createFoundRequest,
-            @RequestParam List<MultipartFile> files
+            @RequestPart MultipartFile file
     ) {
-        foundService.createFound(createFoundRequest, files);
+        foundService.createFound(createFoundRequest, file);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -32,9 +32,9 @@ public class FoundController {
     public ResponseEntity<Void> updateFound(
             @PathVariable Long foundId,
             @RequestPart("foundDto") @Valid UpdateFoundRequest updateFoundRequest,
-            @RequestParam List<MultipartFile> files
+            @RequestPart MultipartFile file
     ) {
-        foundService.updateFound(foundId, updateFoundRequest, files);
+        foundService.updateFound(foundId, updateFoundRequest, file);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
