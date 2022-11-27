@@ -2,18 +2,16 @@ package com.project.findme.domain.lost.presentation.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.findme.domain.lost.domain.Lost;
+import com.project.findme.domain.lost.type.Category;
 import com.project.findme.domain.user.entity.User;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Getter @Builder
-@NoArgsConstructor
+@Getter
 @AllArgsConstructor
 public class CreateLostRequest {
 
@@ -47,7 +45,7 @@ public class CreateLostRequest {
                 .user(user)
                 .title(title)
                 .description(description)
-                .category(category)
+                .category(Category.findName(category))
                 .tags(tags)
                 .isSafe(isSafe)
                 .place(place)

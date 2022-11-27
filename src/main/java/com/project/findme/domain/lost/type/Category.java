@@ -27,7 +27,8 @@ public enum Category {
     private final String name;
 
     public static Category findName(String name) {
-        return Arrays.stream(Category.values()).filter(category -> category.name.equals(name))
+        return Arrays.stream(Category.values())
+                .filter(category -> category.name.equals(name))
                 .findFirst()
                 .orElseThrow();
     }

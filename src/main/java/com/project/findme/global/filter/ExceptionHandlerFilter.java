@@ -2,8 +2,8 @@ package com.project.findme.global.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.findme.domain.user.exception.UserNotFoundException;
-import com.project.findme.global.exception.ErrorCode;
-import com.project.findme.global.exception.ErrorResponse;
+import com.project.findme.global.error.type.ErrorCode;
+import com.project.findme.global.error.response.ErrorResponse;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;

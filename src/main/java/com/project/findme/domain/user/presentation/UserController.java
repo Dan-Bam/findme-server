@@ -1,4 +1,4 @@
-package com.project.findme.domain.user.presentation.controller;
+package com.project.findme.domain.user.presentation;
 
 import com.project.findme.domain.found.presentation.dto.response.FoundResponse;
 import com.project.findme.domain.lost.presentation.dto.response.LostResponse;
@@ -43,7 +43,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("logout")
+    @DeleteMapping("/logout")
     public ResponseEntity<Void> logout() {
         userService.logout();
         return new ResponseEntity<>(HttpStatus.OK);
