@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService {
     public UserInfoResponse findMyInfo() {
         User user = userFacade.currentUser();
         return UserInfoResponse.builder()
+                .id(user.getId())
                 .userName(user.getUserName())
                 .address(user.getAddress())
                 .phoneNumber(user.getPhoneNumber())
