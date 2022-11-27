@@ -7,7 +7,8 @@ import com.project.findme.domain.lost.domain.Lost;
 import com.project.findme.domain.lost.exception.LostNotFoundException;
 import com.project.findme.domain.lost.presentation.dto.request.CreateLostRequest;
 import com.project.findme.domain.lost.presentation.dto.response.LostResponse;
-import com.project.findme.domain.lost.repository.LostRepository;
+import com.project.findme.domain.lost.domain.repository.LostRepository;
+import com.project.findme.domain.lost.type.Category;
 import com.project.findme.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -63,68 +64,43 @@ public class LostFacade {
 
     @Transactional(rollbackFor = Exception.class)
     public List<LostResponse> findAllLost() {
-        return lostRepository.findAll().stream().map(lost -> LostResponse.builder()
-                .id(lost.getId())
-                .title(lost.getTitle())
-                .description(lost.getDescription())
-                .category(lost.getCategory())
-                .imageUrls(findLostImageByLostId(lost.getId()))
-                .tags(lost.getTags())
-                .isSafe(lost.isSafe())
-                .place(lost.getPlace())
-                .latitude(lost.getLatitude())
-                .longitude(lost.getLongitude())
-                .build()).collect(Collectors.toList());
+        return lostRepository.findAll()
+                .stream()
+                .map(lost -> LostResponse.of(lost, findLostImageByLostId(lost.getId()), isLostMine(lost)))
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public LostResponse findLostDetailById(Lost lost) {
-        return LostResponse.builder()
-                .id(lost.getId())
-                .title(lost.getTitle())
-                .description(lost.getDescription())
-                .category(lost.getCategory())
-                .imageUrls(findLostImageByLostId(lost.getId()))
-                .tags(lost.getTags())
-                .isSafe(lost.isSafe())
-                .place(lost.getPlace())
-                .latitude(lost.getLatitude())
-                .longitude(lost.getLongitude())
-                .build();
+        return LostResponse.of(lost, findLostImageByLostId(lost.getId()), isLostMine(lost));
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<LostResponse> findMyLost() {
         return lostRepository.findLostByUserId(userFacade.currentUser().getId())
-                .stream().map(lost -> LostResponse.builder()
-                        .id(lost.getId())
-                        .title(lost.getTitle())
-                        .description(lost.getDescription())
-                        .category(lost.getCategory())
-                        .imageUrls(findLostImageByLostId(lost.getId()))
-                        .tags(lost.getTags())
-                        .isSafe(lost.isSafe())
-                        .place(lost.getPlace())
-                        .latitude(lost.getLatitude())
-                        .longitude(lost.getLongitude())
-                        .build()).collect(Collectors.toList());
+                .stream()
+                .map(lost -> LostResponse.of(lost, findLostImageByLostId(lost.getId()), isLostMine(lost)))
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<LostResponse> findByCategoryAndPlace(String category, String place) {
-        return lostRepository.findLostByCategoryAndPlaceContains(category, place)
-                .stream().map(lost -> LostResponse.builder()
-                        .id(lost.getId())
-                        .title(lost.getTitle())
-                        .description(lost.getDescription())
-                        .category(lost.getCategory())
-                        .imageUrls(findLostImageByLostId(lost.getId()))
-                        .tags(lost.getTags())
-                        .isSafe(lost.isSafe())
-                        .place(lost.getPlace())
-                        .latitude(lost.getLatitude())
-                        .longitude(lost.getLongitude())
-                        .build()).collect(Collectors.toList());
+        if(category == null) {
+            return lostRepository.findLostByPlaceContaining(place)
+                    .stream()
+                    .map(lost -> LostResponse.of(lost, findLostImageByLostId(lost.getId()), isLostMine(lost)))
+                    .collect(Collectors.toList());
+        }
+
+        return lostRepository.findLostByCategoryAndPlaceContains(Category.findName(category), place)
+                .stream()
+                .map(lost -> LostResponse.of(lost, findLostImageByLostId(lost.getId()), isLostMine(lost)))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public boolean isLostMine(Lost lost) {
+        return lost.getUser().getId().equals(userFacade.currentUser().getId());
     }
 
 }

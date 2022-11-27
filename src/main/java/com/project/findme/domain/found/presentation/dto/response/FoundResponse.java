@@ -1,18 +1,21 @@
 package com.project.findme.domain.found.presentation.dto.response;
 
+import com.project.findme.domain.found.domain.Found;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter @Builder
 @AllArgsConstructor
-@NoArgsConstructor
 public class FoundResponse {
 
     private Long id;
+
+    private String userId;
+
+    private Boolean isMine;
 
     private String title;
 
@@ -20,7 +23,7 @@ public class FoundResponse {
 
     private String category;
 
-    private List<String> imageUrls;
+    private List<String> imageUrl;
 
     private List<String> tags;
 
@@ -31,5 +34,22 @@ public class FoundResponse {
     private String latitude;
 
     private String longitude;
+
+    public static FoundResponse of(Found found, List<String> imageUrl, Boolean isMine) {
+        return FoundResponse.builder()
+                .id(found.getId())
+                .userId(found.getUser().getId())
+                .isMine(isMine)
+                .title(found.getTitle())
+                .description(found.getDescription())
+                .category(found.getCategory())
+                .imageUrl(imageUrl)
+                .tags(found.getTags())
+                .isSafe(found.isSafe())
+                .place(found.getPlace())
+                .latitude(found.getLatitude())
+                .longitude(found.getLongitude())
+                .build();
+    }
 
 }

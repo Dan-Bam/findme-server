@@ -27,7 +27,6 @@ public class FoundFacade {
 
     @Transactional(rollbackFor = Exception.class)
     public Found saveFound(CreateFoundRequest createFoundRequest) {
-
         return foundRepository.save(createFoundRequest.toEntity(userFacade.currentUser()));
     }
 
@@ -62,18 +61,14 @@ public class FoundFacade {
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<FoundResponse> findMyFound() {
         return foundRepository.findFoundByUserId(userFacade.currentUser().getId())
-                .stream().map(found -> FoundResponse.builder()
-                        .id(found.getId())
-                        .title(found.getTitle())
-                        .description(found.getDescription())
-                        .category(found.getCategory())
-                        .imageUrls(findFoundImageByFoundId(found.getId()))
-                        .tags(found.getTags())
-                        .isSafe(found.isSafe())
-                        .place(found.getPlace())
-                        .latitude(found.getLatitude())
-                        .longitude(found.getLongitude())
-                        .build()).collect(Collectors.toList());
+                .stream()
+                .map(found -> FoundResponse.of(found, findFoundImageByFoundId(found.getId()), isFoundMine(found)))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public boolean isFoundMine(Found found) {
+        return found.getUser().getId().equals(userFacade.currentUser().getId());
     }
 
 }

@@ -24,10 +24,9 @@ public class FoundServiceImpl implements FoundService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void createFound(CreateFoundRequest createFoundRequest, List<MultipartFile> multipartFiles) {
+    public void createFound(CreateFoundRequest createFoundRequest, MultipartFile multipartFile) {
         Found found = foundFacade.saveFound(createFoundRequest);
-
-        uploadImageToS3(multipartFiles, found);
+        uploadImageToS3(multipartFile, found);
     }
 
     @Override
@@ -41,20 +40,18 @@ public class FoundServiceImpl implements FoundService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateFound(Long foundId, UpdateFoundRequest updateFoundRequest, List<MultipartFile> multipartFiles) {
+    public void updateFound(Long foundId, UpdateFoundRequest updateFoundRequest, MultipartFile multipartFile) {
         Found found = foundFacade.findFoundById(foundId);
         foundFacade.deleteFoundImageById(foundId);
 
-        uploadImageToS3(multipartFiles, found);
-
+        uploadImageToS3(multipartFile, found);
         found.updateFound(updateFoundRequest.getTitle(), updateFoundRequest.getDescription(), updateFoundRequest.getTags(), updateFoundRequest.getIsSafe(), updateFoundRequest.getPlace(), updateFoundRequest.getLatitude(), updateFoundRequest.getLongitude());
     }
 
-    private void uploadImageToS3(List<MultipartFile> multipartFiles, Found found) {
-        List<String> uploadFile = s3Service.uploadFiles(
-                multipartFiles, "FOUND/" + Category.findName(found.getCategory()) + "/USER/" + found.getId() + "/");
+    private void uploadImageToS3(MultipartFile multipartFile, Found found) {
+        String uploadFileUrl = s3Service.uploadFile(multipartFile, "FOUND/" + Category.findName(found.getCategory()) + "/USER/" + found.getId() + "/");
 
-        uploadFile.forEach(file -> foundFacade.saveFoundImage(saveToUrl(found, found.getCategory(), file)));
+        foundFacade.saveFoundImage(saveToUrl(found, found.getCategory(), uploadFileUrl));
     }
 
     @Override

@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface FoundService {
 
-    void createFound(CreateFoundRequest createFoundRequest, List<MultipartFile> multipartFiles);
+    void createFound(CreateFoundRequest createFoundRequest, MultipartFile multipartFile);
     FoundImage saveToUrl(Found found, String category, String uploadFileUrl);
-    void updateFound(Long foundId, UpdateFoundRequest updateFoundRequest, List<MultipartFile> multipartFileList);
+    void updateFound(Long foundId, UpdateFoundRequest updateFoundRequest, MultipartFile multipartFile);
     void deleteFound(Long foundId);
 
 }

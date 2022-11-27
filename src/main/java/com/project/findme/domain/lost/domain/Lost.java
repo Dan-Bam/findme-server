@@ -1,5 +1,6 @@
 package com.project.findme.domain.lost.domain;
 
+import com.project.findme.domain.lost.type.Category;
 import com.project.findme.domain.user.entity.User;
 import lombok.*;
 
@@ -27,7 +28,7 @@ public class Lost {
 
     private String description;
 
-    private String category;
+    private Category category;
 
     @ElementCollection
     @CollectionTable(name = "lost_tags", joinColumns = @JoinColumn(name = "userId"))
