@@ -31,10 +31,10 @@ public class FoundServiceImpl implements FoundService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public FoundImage saveToUrl(Found found, String category, String uploadFileUrl) {
+    public FoundImage saveToUrl(Found found, Category category, String uploadFileUrl) {
         return FoundImage.builder()
                 .found(found)
-                .imageUrl("https://findme-s3-bucket.s3.ap-northeast-2.amazonaws.com/FOUND/" + Category.findName(category) + "/USER/" + found.getId() + "/" + uploadFileUrl)
+                .imageUrl("https://findme-s3-bucket.s3.ap-northeast-2.amazonaws.com/FOUND/" + found.getCategory() + "/USER/" + found.getId() + "/" + uploadFileUrl)
                 .build();
     }
 
@@ -42,14 +42,18 @@ public class FoundServiceImpl implements FoundService {
     @Transactional(rollbackFor = Exception.class)
     public void updateFound(Long foundId, UpdateFoundRequest updateFoundRequest, MultipartFile multipartFile) {
         Found found = foundFacade.findFoundById(foundId);
-        foundFacade.deleteFoundImageById(foundId);
 
-        uploadImageToS3(multipartFile, found);
+        if(!multipartFile.isEmpty()) {
+            foundFacade.deleteFoundImageById(foundId);
+            uploadImageToS3(multipartFile, found);
+            found.updateFound(updateFoundRequest.getTitle(), updateFoundRequest.getDescription(), updateFoundRequest.getTags(), updateFoundRequest.getIsSafe(), updateFoundRequest.getPlace(), updateFoundRequest.getLatitude(), updateFoundRequest.getLongitude());
+        }
+
         found.updateFound(updateFoundRequest.getTitle(), updateFoundRequest.getDescription(), updateFoundRequest.getTags(), updateFoundRequest.getIsSafe(), updateFoundRequest.getPlace(), updateFoundRequest.getLatitude(), updateFoundRequest.getLongitude());
     }
 
     private void uploadImageToS3(MultipartFile multipartFile, Found found) {
-        String uploadFileUrl = s3Service.uploadFile(multipartFile, "FOUND/" + Category.findName(found.getCategory()) + "/USER/" + found.getId() + "/");
+        String uploadFileUrl = s3Service.uploadFile(multipartFile, "FOUND/" + found.getCategory() + "/USER/" + found.getId() + "/");
 
         foundFacade.saveFoundImage(saveToUrl(found, found.getCategory(), uploadFileUrl));
     }

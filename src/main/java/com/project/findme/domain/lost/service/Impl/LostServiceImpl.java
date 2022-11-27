@@ -58,9 +58,13 @@ public class LostServiceImpl implements LostService {
     @Transactional(rollbackFor = Exception.class)
     public void updateLost(Long lostId, UpdateLostRequest updateLostRequest, MultipartFile multipartFile) {
         Lost lost = lostFacade.findLostById(lostId);
-        lostFacade.deleteLostImagesById(lostId);
 
-        uploadImageToS3(multipartFile, lost);
+        if(!multipartFile.isEmpty()) {
+            lostFacade.deleteLostImagesById(lostId);
+            uploadImageToS3(multipartFile, lost);
+            lost.updateLost(updateLostRequest.getTitle(), updateLostRequest.getDescription(), updateLostRequest.getTags(), updateLostRequest.getIsSafe(), updateLostRequest.getPlace(), updateLostRequest.getLatitude(), updateLostRequest.getLongitude());
+        }
+
         lost.updateLost(updateLostRequest.getTitle(), updateLostRequest.getDescription(), updateLostRequest.getTags(), updateLostRequest.getIsSafe(), updateLostRequest.getPlace(), updateLostRequest.getLatitude(), updateLostRequest.getLongitude());
     }
 

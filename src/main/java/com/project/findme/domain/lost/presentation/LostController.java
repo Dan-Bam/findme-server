@@ -23,7 +23,7 @@ public class LostController {
     @PostMapping
     public ResponseEntity<Void> createLost(
             @RequestPart("lostDto") @Valid CreateLostRequest createLostRequest,
-            @RequestPart MultipartFile file
+            @RequestPart(required = false) MultipartFile file
     ) {
         lostService.createLost(createLostRequest, file);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -32,7 +32,7 @@ public class LostController {
     @PatchMapping("{lostId}")
     public ResponseEntity<Void> updateLost(
             @PathVariable Long lostId,
-            @Valid @RequestPart("lostDto") UpdateLostRequest updateLostRequest,
+            @Valid @RequestPart(value = "lostDto", required = false) UpdateLostRequest updateLostRequest,
             @RequestPart MultipartFile file
     ) {
         lostService.updateLost(lostId, updateLostRequest, file);
