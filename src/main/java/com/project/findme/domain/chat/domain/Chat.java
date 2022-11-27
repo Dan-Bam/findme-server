@@ -1,4 +1,4 @@
-package com.project.findme.domain.chat.entity;
+package com.project.findme.domain.chat.domain;
 
 
 import com.project.findme.domain.user.entity.User;
@@ -7,7 +7,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity @Builder
+@Entity
+@Getter @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Chat extends BaseTimeEntity {
