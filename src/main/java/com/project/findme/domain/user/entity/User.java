@@ -33,6 +33,7 @@ public class User {
 
     private String refreshToken;
 
+    @Builder.Default
     @ElementCollection
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "role", joinColumns = @JoinColumn(name = "userID"))
