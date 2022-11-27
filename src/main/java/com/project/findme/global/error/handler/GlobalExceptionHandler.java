@@ -1,11 +1,13 @@
-package com.project.findme.global.exception.handler;
+package com.project.findme.global.error.handler;
 
+import com.project.findme.domain.chat.exception.ChattingRoomNotFoundException;
+import com.project.findme.domain.chat.exception.DuplicateChattingRoomException;
 import com.project.findme.domain.found.exception.FoundNotFoundException;
 import com.project.findme.domain.lost.exception.LostNotFoundException;
 import com.project.findme.domain.message.exception.AuthKeyNotMatchException;
 import com.project.findme.domain.message.exception.PhoneNumberNotFound;
 import com.project.findme.domain.user.exception.*;
-import com.project.findme.global.exception.ErrorResponse;
+import com.project.findme.global.error.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -69,8 +71,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
 
-    @ExceptionHandler(FoundNotFoundException.class)
-    public ResponseEntity<ErrorResponse> FoundNotFoundException(FoundNotFoundException e) {
+    @ExceptionHandler(DuplicateChattingRoomException.class)
+    public ResponseEntity<ErrorResponse> DuplicateChattingRoomException(DuplicateChattingRoomException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
+    @ExceptionHandler(ChattingRoomNotFoundException.class)
+    public ResponseEntity<ErrorResponse> ChattingRoomNotFoundException(ChattingRoomNotFoundException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }

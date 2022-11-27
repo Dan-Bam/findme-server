@@ -1,5 +1,6 @@
-package com.project.findme.global.exception;
+package com.project.findme.global.error.response;
 
+import com.project.findme.global.error.type.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

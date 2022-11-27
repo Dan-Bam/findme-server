@@ -1,4 +1,4 @@
-package com.project.findme.global.exception;
+package com.project.findme.global.error.type;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +17,7 @@ public enum ErrorCode {
 
     // TOKEN
     REFRESH_TOKEN_EXPIRED("refreshToken이 만료되었습니다.", 403),
-    INVALID_TOKEN("유효하지 않은 토근입니다.", 403),
+    INVALID_TOKEN("유효하지 않은 토큰입니다.", 403),
     EXPIRATION_TOKEN("만료된 토큰입니다.", 403),
 
 
@@ -35,7 +35,12 @@ public enum ErrorCode {
 
 
     // SERVER
-    INTERVAL_SERVER_ERROR("서버 오류 입니다.", 500)
+    INTERVAL_SERVER_ERROR("서버 오류 입니다.", 500),
+
+
+    // TYPE
+    DUPLICATE_CHATTING_ROOM("이미 존재하는 채팅방 입니다.", 400),
+    CHATTING_ROOM_NOT_FOUND("채팅방이 존재하지 않습니다.", 404),
     ;
 
     private final String msg;
