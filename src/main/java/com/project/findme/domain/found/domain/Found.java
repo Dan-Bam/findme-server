@@ -35,19 +35,16 @@ public class Found {
     @CollectionTable(name = "found_tags", joinColumns = @JoinColumn(name = "userId"))
     private List<String> tags = new ArrayList<>();
 
-    private boolean isSafe;
-
     private String place;
 
     private String latitude;
 
     private String longitude;
 
-    public void updateFound(String title, String description, List<String> tags, Boolean isSafe, String place, String latitude, String longitude) {
+    public void updateFound(String title, String description, List<String> tags, String place, String latitude, String longitude) {
         this.title = title;
         this.description = description;
         this.tags = tags;
-        this.isSafe = isSafe;
         this.place = place;
         this.latitude = latitude;
         this.longitude = longitude;

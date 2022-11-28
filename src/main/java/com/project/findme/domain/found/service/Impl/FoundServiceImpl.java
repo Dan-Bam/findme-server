@@ -32,7 +32,7 @@ public class FoundServiceImpl implements FoundService {
     public FoundImage saveToUrl(Found found, Category category, String uploadFileUrl) {
         return FoundImage.builder()
                 .found(found)
-                .imageUrl("https://findme-s3-bucket.s3.ap-northeast-2.amazonaws.com/FOUND/" + found.getCategory() + "/USER/" + found.getId() + "/" + uploadFileUrl)
+                .imageUrl("https://kdn-findme-bucket.s3.ap-northeast-2.amazonaws.com/FOUND/" + found.getCategory() + "/USER/" + found.getId() + "/" + uploadFileUrl)
                 .build();
     }
 
@@ -44,10 +44,10 @@ public class FoundServiceImpl implements FoundService {
         if(!multipartFile.isEmpty()) {
             foundFacade.deleteFoundImageById(foundId);
             uploadImageToS3(multipartFile, found);
-            found.updateFound(updateFoundRequest.getTitle(), updateFoundRequest.getDescription(), updateFoundRequest.getTags(), updateFoundRequest.getIsSafe(), updateFoundRequest.getPlace(), updateFoundRequest.getLatitude(), updateFoundRequest.getLongitude());
+            found.updateFound(updateFoundRequest.getTitle(), updateFoundRequest.getDescription(), updateFoundRequest.getTags(), updateFoundRequest.getPlace(), updateFoundRequest.getLatitude(), updateFoundRequest.getLongitude());
         }
 
-        found.updateFound(updateFoundRequest.getTitle(), updateFoundRequest.getDescription(), updateFoundRequest.getTags(), updateFoundRequest.getIsSafe(), updateFoundRequest.getPlace(), updateFoundRequest.getLatitude(), updateFoundRequest.getLongitude());
+        found.updateFound(updateFoundRequest.getTitle(), updateFoundRequest.getDescription(), updateFoundRequest.getTags(), updateFoundRequest.getPlace(), updateFoundRequest.getLatitude(), updateFoundRequest.getLongitude());
     }
 
     private void uploadImageToS3(MultipartFile multipartFile, Found found) {

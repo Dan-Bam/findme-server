@@ -28,8 +28,6 @@ public class FoundResponse {
 
     private List<String> tags;
 
-    private Boolean isSafe;
-
     private String place;
 
     private String latitude;
@@ -46,7 +44,6 @@ public class FoundResponse {
                 .category(found.getCategory().getName())
                 .imageUrl(imageUrl)
                 .tags(found.getTags())
-                .isSafe(found.isSafe())
                 .place(found.getPlace())
                 .latitude(found.getLatitude())
                 .longitude(found.getLongitude())

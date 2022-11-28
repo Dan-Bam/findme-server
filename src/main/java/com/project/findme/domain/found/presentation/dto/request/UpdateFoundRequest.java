@@ -24,10 +24,6 @@ public class UpdateFoundRequest {
     @NotNull(message = "태그가 입력되지 않았습니다")
     private List<String> tags;
 
-    @JsonProperty("isSafe")
-    @NotNull(message = "안심거래가 선택되지 않았습니다")
-    private Boolean isSafe;
-
     @NotBlank(message = "장소가 선택되지 않았습니다")
     private String place;
 
