@@ -53,6 +53,6 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public List<RoomResponse> findAllRooms() {
-        return null;
+        return roomFacade.findAllMyRoom();
     }
 }

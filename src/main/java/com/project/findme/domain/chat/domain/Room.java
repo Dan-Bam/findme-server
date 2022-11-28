@@ -5,8 +5,11 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-@Entity @Builder
+@Entity
+@Getter @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Room {
@@ -16,11 +19,8 @@ public class Room {
     @Column(name = "room_id")
     private Long id;
 
-    @ManyToOne
-    private User userA;
-
-    @ManyToOne
-    private User userB;
+    @OneToMany
+    private List<RoomUser> roomUsers;
 
     @Embedded
     private LastChat lastChat;
@@ -39,6 +39,14 @@ public class Room {
     public void updateLastMessage(Chat chat) {
         this.lastChat.lastMessage = chat.getMessage();
         this.lastChat.lastSentAt = chat.getCreatedAt();
+    }
+
+    public void addRoomUser(User user) {
+        this.roomUsers.add(RoomUser
+                .builder()
+                .room(this)
+                .user(user)
+                .build());
     }
 
 }

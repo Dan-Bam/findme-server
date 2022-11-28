@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class DateUtil {
 
-    public static String toTimeAge(LocalDateTime localDateTime) {
+    public static String toTimeAgo(LocalDateTime localDateTime) {
 
         LocalDateTime now = LocalDateTime.now();
 
