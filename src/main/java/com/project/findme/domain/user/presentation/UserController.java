@@ -36,10 +36,8 @@ public class UserController {
     }
 
     @PatchMapping
-    public ResponseEntity<Void> updateUserInfo(
-            @RequestPart(name = "userInfo") UpdateUserInfoRequest updateUserInfoRequest,
-            @RequestPart(required = false) MultipartFile file) {
-        userService.updateUserInfo(updateUserInfoRequest, file);
+    public ResponseEntity<Void> updateUserInfo(@RequestBody UpdateUserInfoRequest updateUserInfoRequest) {
+        userService.updateUserInfo(updateUserInfoRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

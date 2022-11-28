@@ -18,6 +18,4 @@ public class UserInfoResponse {
 
     private String phoneNumber;
 
-    private String imageUrl;
-
 }

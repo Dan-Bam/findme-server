@@ -29,8 +29,6 @@ public class User {
 
     private String userName;
 
-    private String imageUrl;
-
     private String refreshToken;
 
     @Builder.Default
@@ -43,11 +41,10 @@ public class User {
         this.refreshToken = refreshToken;
     }
 
-    public void updateUserInfo(String userName, String address, String phoneNumber, String imageUrl) {
+    public void updateUserInfo(String userName, String address, String phoneNumber) {
         this.userName = userName;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.imageUrl = "https://kdn-findme-bucket.s3.ap-northeast-2.amazonaws.com/USER/" + imageUrl;
     }
 
 }
