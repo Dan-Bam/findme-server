@@ -11,6 +11,7 @@ public interface UserService {
 
     List<LostResponse> findMyLost();
     List<FoundResponse> findMyFound();
+    List<FoundResponse> findRecommendLost();
     UserInfoResponse findMyInfo();
     void updateUserInfo(UpdateUserInfoRequest updateUserInfoRequest);
     void logout();

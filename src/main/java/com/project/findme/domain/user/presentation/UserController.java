@@ -30,6 +30,12 @@ public class UserController {
         return new ResponseEntity<>(userService.findMyFound(), HttpStatus.OK);
     }
 
+    @GetMapping("/recommend")
+    public ResponseEntity<List<FoundResponse>> findMyRecommendLost() {
+        return new ResponseEntity<>(userService.findRecommendLost(), HttpStatus.OK);
+    }
+
+
     @GetMapping
     public ResponseEntity<UserInfoResponse> findMyInfo() {
         return new ResponseEntity<>(userService.findMyInfo(), HttpStatus.OK);

@@ -39,6 +39,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public List<FoundResponse> findRecommendLost() {
+        return foundFacade.findRecommendLostByUser();
+    }
+
+    @Override
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public UserInfoResponse findMyInfo() {
         User user = userFacade.currentUser();
         return UserInfoResponse.builder()
