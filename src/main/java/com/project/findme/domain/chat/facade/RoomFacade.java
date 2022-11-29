@@ -25,24 +25,11 @@ public class RoomFacade {
 
     private final RoomRepository roomRepository;
     private final RoomUserRepository roomUserRepository;
+    private final ChatFacade chatFacade;
     private final UserFacade userFacade;
 
     @Transactional(rollbackFor = Exception.class)
     public void saveRoom(User userA, User userB, String roomName, String imageUrl) {
-
-        User user1;
-        User user2;
-
-        if(userA.getUserId() < userB.getUserId()) { // UserB가 크면 작은게 user1
-            user1 = userA;
-            user2 = userB;
-        } else {
-            user1 = userB;
-            user2 = userA;
-        }
-
-//        checkRoomExist(user1, user2);
-
 
         Room room = roomRepository.save(Room
                 .builder()
@@ -54,12 +41,12 @@ public class RoomFacade {
         List<RoomUser> roomUsers = new ArrayList<>();
 
         roomUsers.add(RoomUser.builder()
-                .user(user1)
+                .user(userA)
                 .room(room)
                 .build());
 
         roomUsers.add(RoomUser.builder()
-                .user(user2)
+                .user(userB)
                 .room(room)
                 .build());
 
@@ -67,14 +54,11 @@ public class RoomFacade {
 
     }
 
-//    @Transactional(readOnly = true, rollbackFor = Exception.class)
-//    public void checkRoomExist(User userA, User userB) {
-//        Optional<Room> room = roomRepository.findRoomByRoomUsers(userA, userB);
-//
-//        if(room.isPresent()) {
-//            throw new DuplicateChattingRoomException();
-//        }
-//    }
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteRoom(Long roomId) {
+        chatFacade.deleteChat(roomId);
+        roomRepository.delete(findRoomByRoomId(roomId));
+    }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Room findRoomByRoomId(Long roomId) {
