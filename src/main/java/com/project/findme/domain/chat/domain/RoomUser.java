@@ -16,7 +16,7 @@ public class RoomUser {
     @Column(name = "room_user_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "room_id")
     private Room room;
 
