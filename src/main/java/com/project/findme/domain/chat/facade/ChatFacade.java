@@ -27,6 +27,11 @@ public class ChatFacade {
                 .build());
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteChat(Long roomId) {
+        chatRepository.deleteAll(chatRepository.findChatByRoomIdOrderByIdAsc(roomId));
+    }
+
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<ChatResponse> findAllChats(Long roomId, User user) {
         return chatRepository.findChatByRoomIdOrderByIdAsc(roomId)

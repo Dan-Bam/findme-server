@@ -31,13 +31,16 @@ public class ChatServiceImpl implements ChatService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void createRoom(CreateRoomRequest createRoomRequest) {
-
-        log.info(createRoomRequest.getId());
-
         User userA = userFacade.currentUser();
         User userB = userFacade.findUserById(createRoomRequest.getId());
 
         roomFacade.saveRoom(userA, userB,createRoomRequest.getRoomName(), createRoomRequest.getImageUrl());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteRoom(Long roomId) {
+        roomFacade.deleteRoom(roomId);
     }
 
     @Override

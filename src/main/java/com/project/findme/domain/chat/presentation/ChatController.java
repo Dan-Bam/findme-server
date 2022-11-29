@@ -24,6 +24,12 @@ public class ChatController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @DeleteMapping("{roomId}")
+    public ResponseEntity<Void> deleteRoom(@PathVariable Long roomId) {
+        chatService.deleteRoom(roomId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("{roomId}")
     public ResponseEntity<List<ChatResponse>> findAllChats(@PathVariable Long roomId) {
         return new ResponseEntity<>(chatService.findAllChats(roomId), HttpStatus.OK);

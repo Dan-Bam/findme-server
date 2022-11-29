@@ -10,6 +10,7 @@ import java.util.List;
 public interface ChatService {
 
     void createRoom(CreateRoomRequest createRoomRequest);
+    void deleteRoom(Long roomId);
     void sendChat(SendChatRequest sendChatRequest);
     List<ChatResponse> findAllChats(Long roomId);
     List<RoomResponse> findAllRooms();
