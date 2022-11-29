@@ -16,8 +16,6 @@ public class FoundResponse {
 
     private String userId;
 
-    private Boolean isMine;
-
     private String title;
 
     private String description;
@@ -34,11 +32,10 @@ public class FoundResponse {
 
     private String longitude;
 
-    public static FoundResponse of(Found found, List<String> imageUrl, Boolean isMine) {
+    public static FoundResponse of(Found found, List<String> imageUrl) {
         return FoundResponse.builder()
                 .id(found.getId())
                 .userId(found.getUser().getId())
-                .isMine(isMine)
                 .title(found.getTitle())
                 .description(found.getDescription())
                 .category(found.getCategory().getName())

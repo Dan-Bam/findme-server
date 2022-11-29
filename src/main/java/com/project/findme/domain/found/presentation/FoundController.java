@@ -2,6 +2,7 @@ package com.project.findme.domain.found.presentation;
 
 import com.project.findme.domain.found.presentation.dto.request.CreateFoundRequest;
 import com.project.findme.domain.found.presentation.dto.request.UpdateFoundRequest;
+import com.project.findme.domain.found.presentation.dto.response.FoundResponse;
 import com.project.findme.domain.found.service.FoundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("found")
@@ -42,6 +42,11 @@ public class FoundController {
     public ResponseEntity<Void> deleteFound(@PathVariable Long foundId) {
         foundService.deleteFound(foundId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("{foundId}")
+    public ResponseEntity<FoundResponse> findFoundById(@PathVariable Long foundId) {
+        return new ResponseEntity<>(foundService.findById(foundId), HttpStatus.OK);
     }
 
 }
