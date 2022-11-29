@@ -19,7 +19,7 @@ public class ChatController {
     private final ChatService chatService;
 
     @PostMapping
-    public ResponseEntity<Void> createRoom(CreateRoomRequest createRoomRequest) {
+    public ResponseEntity<Void> createRoom(@RequestBody CreateRoomRequest createRoomRequest) {
         chatService.createRoom(createRoomRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }

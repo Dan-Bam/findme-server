@@ -17,23 +17,25 @@ import java.time.LocalDateTime;
 public class RoomResponse {
 
     private Long roomId;
+    private String roomName;
     private String roomImage;
     private LastChat lastChat;
 
-    @Builder
+    @Getter @Builder
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class LastChat {
         private String lastMessage;
         private String lastSentAt;
     }
 
     public static RoomResponse of(RoomUser roomUser) {
-
         Room room = roomUser.getRoom();
 
         return RoomResponse
                 .builder()
                 .roomId(room.getId())
+                .roomName(room.getRoomName())
                 .roomImage(room.getImageUrl())
                 .lastChat(LastChat
                         .builder()

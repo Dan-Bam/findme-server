@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface RoomRepository extends CrudRepository<Room, Long> {
 
-    @Query("select room from Room room, RoomUser roomUser where room.id = roomUser.room.id and roomUser.user =: userA and roomUser.user =: userB")
-    Optional<Room> findRoomByRoomUsers(User userA, User userB);
+//    @Query("select room from Room room, RoomUser roomUser where room.id = roomUser.room.id and roomUser.user =: userA")
+//    Optional<Room> findRoomByRoomUsers(User userA, User userB);
 
 }

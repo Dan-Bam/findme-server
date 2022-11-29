@@ -19,8 +19,11 @@ public class Room {
     @Column(name = "room_id")
     private Long id;
 
-    @OneToMany
-    private List<RoomUser> roomUsers;
+    @Builder.Default
+    @OneToMany(mappedBy = "room", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<RoomUser> roomUsers = new ArrayList<>();
+
+    private String roomName;
 
     @Embedded
     private LastChat lastChat;
