@@ -65,6 +65,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
 
+    @ExceptionHandler(FoundNotFoundException.class)
+    public ResponseEntity<ErrorResponse> FoundNotFoundException(FoundNotFoundException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
     @ExceptionHandler(InvalidTokenException.class)
     public ResponseEntity<ErrorResponse> InvalidTokenException(InvalidTokenException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
