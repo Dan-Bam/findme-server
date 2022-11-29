@@ -1,6 +1,7 @@
 package com.project.findme.domain.lost.service.Impl;
 
 import com.project.findme.domain.image.domain.LostImage;
+import com.project.findme.infrastructure.feign.dto.request.MakeImageRequest;
 import com.project.findme.infrastructure.s3.service.S3Service;
 import com.project.findme.domain.lost.domain.Lost;
 import com.project.findme.domain.lost.facade.LostFacade;
@@ -9,7 +10,7 @@ import com.project.findme.domain.lost.presentation.dto.request.UpdateLostRequest
 import com.project.findme.domain.lost.presentation.dto.response.LostResponse;
 import com.project.findme.domain.lost.service.LostService;
 import com.project.findme.domain.lost.type.Category;
-import com.project.findme.infrastructure.feign.client.MakeImageFeign;
+import com.project.findme.infrastructure.feign.client.ImageFeignClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -25,23 +26,19 @@ public class LostServiceImpl implements LostService {
 
     private final S3Service s3Service;
     private final LostFacade lostFacade;
-    private final MakeImageFeign makeImageFeign;
+    private final ImageFeignClient imageFeignClient;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void createLost(CreateLostRequest createLostRequest, MultipartFile multipartFile) {
-
-        log.info(createLostRequest.getCategory());
-        log.info(Category.findName(createLostRequest.getCategory()));
-
         Lost lost = lostFacade.saveLost(createLostRequest);
         uploadImageToS3(multipartFile, lost);
 
-//        makeImageFeign.makeImage(MakeImageRequest.builder()
-//                        .lostId(lost.getId())
-//                        .category(lost.getCategory())
-//                        .tags(lost.getTags())
-//                        .build());
+        imageFeignClient.makeImage(MakeImageRequest.builder()
+                        .lostId(lost.getId())
+                        .category(lost.getCategory())
+                        .tags(lost.getTags())
+                        .build());
     }
 
     @Override
@@ -49,7 +46,7 @@ public class LostServiceImpl implements LostService {
     public LostImage saveToUrl(Lost lost, Category category, String uploadFileUrl) {
         return LostImage.builder()
                 .lost(lost)
-                .imageUrl("https://findme-s3-bucket.s3.ap-northeast-2.amazonaws.com/LOST/" + category + "/USER/" + lost.getId() + "/" + uploadFileUrl)
+                .imageUrl("https://kdn-findme-bucket.s3.ap-northeast-2.amazonaws.com/LOST/" + category + "/USER/" + lost.getId() + "/" + uploadFileUrl)
                 .build();
     }
 
@@ -58,10 +55,10 @@ public class LostServiceImpl implements LostService {
     public void updateLost(Long lostId, UpdateLostRequest updateLostRequest, MultipartFile multipartFile) {
         Lost lost = lostFacade.findLostById(lostId);
 
-        if(!multipartFile.isEmpty()) {
+        if(multipartFile != null) {
+            lost.updateLost(updateLostRequest.getTitle(), updateLostRequest.getDescription(), updateLostRequest.getTags(), updateLostRequest.getIsSafe(), updateLostRequest.getPlace(), updateLostRequest.getLatitude(), updateLostRequest.getLongitude());
             lostFacade.deleteLostImagesById(lostId);
             uploadImageToS3(multipartFile, lost);
-            lost.updateLost(updateLostRequest.getTitle(), updateLostRequest.getDescription(), updateLostRequest.getTags(), updateLostRequest.getIsSafe(), updateLostRequest.getPlace(), updateLostRequest.getLatitude(), updateLostRequest.getLongitude());
         }
 
         lost.updateLost(updateLostRequest.getTitle(), updateLostRequest.getDescription(), updateLostRequest.getTags(), updateLostRequest.getIsSafe(), updateLostRequest.getPlace(), updateLostRequest.getLatitude(), updateLostRequest.getLongitude());
