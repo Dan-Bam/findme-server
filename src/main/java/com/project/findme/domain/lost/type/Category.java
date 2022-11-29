@@ -21,7 +21,7 @@ public enum Category {
     GLASSES("안경"),
     WALLET("지갑"),
     USB("usb"),
-    JACKET("자켓"),
+    JACKET("겉옷"),
     BOOK("책");
 
     private final String name;
