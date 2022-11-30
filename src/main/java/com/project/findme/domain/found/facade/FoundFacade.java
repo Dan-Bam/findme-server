@@ -78,10 +78,7 @@ public class FoundFacade {
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<FoundResponse> findRecommendLostByUser() {
-         return recommendLostRepository.findRecommendLostByUser(userFacade.currentUser())
-                        .stream()
-                        .map(it -> FoundResponse.of(it.getFound(), findFoundImageByFoundId(it.getFound().getId())))
-                        .collect(Collectors.toList());
+         return recommendLostRepository.findAll().stream().map(it -> FoundResponse.of(it.getFound(), findFoundImageByFoundId(it.getFound().getId()))).collect(Collectors.toList());
     }
 
     @Transactional(rollbackFor = Exception.class)
