@@ -47,7 +47,7 @@ public class ChatServiceImpl implements ChatService {
     @Transactional(rollbackFor = Exception.class)
     public void sendChat(SendChatRequest sendChatRequest) {
         User user = userFacade.currentUser();
-        Room room = roomFacade.findRoomByRoomId(sendChatRequest.getRoomId());
+        Room room = roomFacade.findRoomByRoomId(Long.parseLong(sendChatRequest.getRoomId()));
 
         Chat chat = chatFacade.saveChat(sendChatRequest.getMessage(), room, user);
 

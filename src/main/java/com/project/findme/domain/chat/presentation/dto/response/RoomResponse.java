@@ -2,14 +2,11 @@ package com.project.findme.domain.chat.presentation.dto.response;
 
 import com.project.findme.domain.chat.domain.Room;
 import com.project.findme.domain.chat.domain.RoomUser;
-import com.project.findme.domain.user.entity.User;
 import com.project.findme.global.util.DateUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Getter @Builder
 @AllArgsConstructor

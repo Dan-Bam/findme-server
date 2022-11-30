@@ -8,7 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class SendChatRequest {
 
-    private Long roomId;
+    private String roomId;
 
     private String message;
 

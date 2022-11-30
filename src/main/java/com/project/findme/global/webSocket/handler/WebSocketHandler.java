@@ -34,8 +34,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
         JSONObject request = jsonToObjectParser(payload); //JSON데이터를 JSONObject로 파싱한다.
 
         SendChatRequest sendChatRequest = SendChatRequest.builder()
-                .roomId((Long) request.get("roomId"))
-                .message((String) request.get("message"))
+                .roomId(String.valueOf(request.get("roomId")))
+                .message(String.valueOf(request.get("message")))
                 .build();
 //
         chatService.sendChat(sendChatRequest);
