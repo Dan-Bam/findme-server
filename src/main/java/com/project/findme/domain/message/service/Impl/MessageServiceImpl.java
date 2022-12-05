@@ -6,19 +6,15 @@ import com.project.findme.domain.message.exception.PhoneNumberNotFound;
 import com.project.findme.domain.message.presentation.dto.CheckAuthKeyRequest;
 import com.project.findme.domain.message.presentation.dto.PhoneNumberRequest;
 import com.project.findme.infrastructure.coolsms.Coolsms;
-import com.project.findme.infrastructure.coolsms.config.CoolsmsProperties;
 import com.project.findme.domain.message.domain.repository.MessageAuthRepository;
 import com.project.findme.domain.message.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import net.nurigo.java_sdk.api.Message;
-import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.Random;
 
 @Log4j2

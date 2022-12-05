@@ -1,6 +1,6 @@
 package com.project.findme.infrastructure.coolsms;
 
-import com.project.findme.infrastructure.coolsms.config.CoolsmsProperties;
+import com.project.findme.infrastructure.coolsms.property.CoolsmsProperties;
 import com.project.findme.infrastructure.coolsms.util.SmsUtil;
 import lombok.RequiredArgsConstructor;
 import net.nurigo.java_sdk.api.Message;

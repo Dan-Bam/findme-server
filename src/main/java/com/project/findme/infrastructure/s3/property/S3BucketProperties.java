@@ -1,4 +1,4 @@
-package com.project.findme.infrastructure.s3.config;
+package com.project.findme.infrastructure.s3.property;
 
 import lombok.*;
 import org.springframework.boot.context.properties.ConfigurationProperties;

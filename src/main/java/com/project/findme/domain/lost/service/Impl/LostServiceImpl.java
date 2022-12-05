@@ -34,11 +34,11 @@ public class LostServiceImpl implements LostService {
         Lost lost = lostFacade.saveLost(createLostRequest);
         uploadImageToS3(multipartFile, lost);
 
-        imageFeignClient.makeImage(MakeImageRequest.builder()
-                        .lostId(lost.getId())
-                        .category(lost.getCategory())
-                        .tags(lost.getTags())
-                        .build());
+//        imageFeignClient.makeImage(MakeImageRequest.builder()
+//                        .lostId(lost.getId())
+//                        .category(lost.getCategory())
+//                        .tags(lost.getTags())
+//                        .build());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class LostServiceImpl implements LostService {
     public LostImage saveToUrl(Lost lost, Category category, String uploadFileUrl) {
         return LostImage.builder()
                 .lost(lost)
-                .imageUrl("https://kdn-findme-bucket.s3.ap-northeast-2.amazonaws.com/LOST/" + category + "/USER/" + lost.getId() + "/" + uploadFileUrl)
+                .imageUrl("https://findme-s3-bucket.s3.ap-northeast-2.amazonaws.com/LOST/" + category + "/USER/" + lost.getId() + "/" + uploadFileUrl)
                 .build();
     }
 

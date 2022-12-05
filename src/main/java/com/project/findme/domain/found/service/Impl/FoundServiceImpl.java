@@ -31,13 +31,13 @@ public class FoundServiceImpl implements FoundService {
         Found found = foundFacade.saveFound(createFoundRequest);
         uploadImageToS3(multipartFile, found);
 
-        CheckImageResponse checkImage = imageFeignClient.checkImage(CheckImageRequest.builder()
-                .userImage(foundFacade.findFoundImageByFoundId(found.getId()).get(0))
-                .category(found.getCategory())
-                .foundId(found.getId())
-                .build());
-
-        checkImage.getLostId().forEach(lostId -> foundFacade.saveRecommendLost(Long.valueOf(lostId), found));
+//        CheckImageResponse checkImage = imageFeignClient.checkImage(CheckImageRequest.builder()
+//                .userImage(foundFacade.findFoundImageByFoundId(found.getId()).get(0))
+//                .category(found.getCategory())
+//                .foundId(found.getId())
+//                .build());
+//
+//        checkImage.getLostId().forEach(lostId -> foundFacade.saveRecommendLost(Long.valueOf(lostId), found));
 
     }
 
@@ -46,7 +46,7 @@ public class FoundServiceImpl implements FoundService {
     public FoundImage saveToUrl(Found found, Category category, String uploadFileUrl) {
         return FoundImage.builder()
                 .found(found)
-                .imageUrl("https://kdn-findme-bucket.s3.ap-northeast-2.amazonaws.com/FOUND/" + found.getCategory() + "/USER/" + found.getId() + "/" + uploadFileUrl)
+                .imageUrl("https://findme-s3-bucket.s3.ap-northeast-2.amazonaws.com/FOUND/" + found.getCategory() + "/USER/" + found.getId() + "/" + uploadFileUrl)
                 .build();
     }
 

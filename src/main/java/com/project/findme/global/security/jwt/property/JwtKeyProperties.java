@@ -1,4 +1,4 @@
-package com.project.findme.global.security.jwt.config;
+package com.project.findme.global.security.jwt.property;
 
 import lombok.*;
 import org.springframework.boot.context.properties.ConfigurationProperties;
