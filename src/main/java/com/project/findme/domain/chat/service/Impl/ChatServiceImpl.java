@@ -1,18 +1,14 @@
 package com.project.findme.domain.chat.service.Impl;
 
-import com.project.findme.domain.chat.domain.Chat;
-import com.project.findme.domain.chat.domain.Room;
 import com.project.findme.domain.chat.facade.ChatFacade;
 import com.project.findme.domain.chat.facade.RoomFacade;
 import com.project.findme.domain.chat.presentation.dto.request.CreateRoomRequest;
-import com.project.findme.domain.chat.presentation.dto.request.SendChatRequest;
 import com.project.findme.domain.chat.presentation.dto.response.ChatResponse;
 import com.project.findme.domain.chat.presentation.dto.response.RoomResponse;
 import com.project.findme.domain.chat.service.ChatService;
 import com.project.findme.domain.user.entity.User;
 import com.project.findme.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,17 +37,6 @@ public class ChatServiceImpl implements ChatService {
     @Transactional(rollbackFor = Exception.class)
     public void deleteRoom(Long roomId) {
         roomFacade.deleteRoom(roomId);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void sendChat(SendChatRequest sendChatRequest) {
-        User user = userFacade.currentUser();
-        Room room = roomFacade.findRoomByRoomId(Long.parseLong(sendChatRequest.getRoomId()));
-
-        Chat chat = chatFacade.saveChat(sendChatRequest.getMessage(), room, user);
-
-        room.updateLastMessage(chat);
     }
 
     @Override
