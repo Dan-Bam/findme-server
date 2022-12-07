@@ -5,6 +5,7 @@ import com.project.findme.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -23,28 +24,17 @@ import java.io.IOException;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final AuthDetailService authDetailService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String accessToken = request.getHeader("Authorization");
+        String token = request.getHeader("Authorization");
 
-        if (accessToken != null) {
-            String id = jwtTokenProvider.extractAllClaims(accessToken).getSubject();
-            registerUserInfoSecurityContext(id, request);
+        if (token != null) {
+            Authentication authentication = jwtTokenProvider.authentication(token);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
         filterChain.doFilter(request, response);
     }
 
-    public void registerUserInfoSecurityContext(String id, HttpServletRequest request) {
-        try {
-            UserDetails userDetails = authDetailService.loadUserByUsername(id);
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-        } catch (NullPointerException e) {
-            throw new RuntimeException();
-        }
-    }
 }

@@ -1,6 +1,7 @@
 package com.project.findme.global.security.jwt;
 
-import com.project.findme.global.security.jwt.property.JwtKeyProperties;
+import com.project.findme.global.security.authentication.AuthDetailService;
+import com.project.findme.global.security.jwt.config.JwtKeyProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -8,6 +9,9 @@ import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
@@ -21,6 +25,7 @@ import java.util.Date;
 public class JwtTokenProvider {
 
     private final JwtKeyProperties jwtKeyProperties;
+    private final AuthDetailService authDetailService;
 
     private final long ACCESS_TOKEN_EXPIRED_TIME = 2 * 60 * 1000; // 2시간
     private final long REFRESH_TOKEN_EXPIRED_TIME = 7 * 24 * 60 * 60 * 1000; // 1주
@@ -81,6 +86,12 @@ public class JwtTokenProvider {
 
     public String generateRefreshToken(String id) {
         return doGenerateToken(id, TokenType.REFRESH_TOKEN, REFRESH_TOKEN_EXPIRED_TIME);
+    }
+
+    public Authentication authentication(String token) {
+        UserDetails userDetails = authDetailService
+                .loadUserByUsername(getUserId(token));
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
 }
