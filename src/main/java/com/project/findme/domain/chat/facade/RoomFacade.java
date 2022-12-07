@@ -1,5 +1,6 @@
 package com.project.findme.domain.chat.facade;
 
+import com.corundumstudio.socketio.SocketIOClient;
 import com.project.findme.domain.chat.domain.Room;
 import com.project.findme.domain.chat.domain.RoomUser;
 import com.project.findme.domain.chat.domain.repository.RoomRepository;
@@ -8,6 +9,7 @@ import com.project.findme.domain.chat.exception.ChattingRoomNotFoundException;
 import com.project.findme.domain.chat.presentation.dto.response.RoomResponse;
 import com.project.findme.domain.user.entity.User;
 import com.project.findme.domain.user.facade.UserFacade;
+import com.project.findme.global.webSocket.util.SocketUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
@@ -74,6 +76,11 @@ public class RoomFacade {
                 .stream()
                 .map(RoomResponse::of)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public Room getCurrentRoom(SocketIOClient client) {
+        return findRoomByRoomId(SocketUtil.getRoomId(client));
     }
 
 }

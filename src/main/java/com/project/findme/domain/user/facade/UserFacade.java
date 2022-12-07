@@ -1,10 +1,12 @@
 package com.project.findme.domain.user.facade;
 
+import com.corundumstudio.socketio.SocketIOClient;
 import com.project.findme.domain.user.entity.User;
 import com.project.findme.domain.user.exception.PasswordNotMatchException;
 import com.project.findme.domain.user.exception.UserNotFoundException;
 import com.project.findme.domain.user.presentation.dto.request.SignUpRequest;
 import com.project.findme.domain.user.repository.UserRepository;
+import com.project.findme.global.webSocket.util.SocketUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,7 +30,7 @@ public class UserFacade {
         userRepository.save(signUpRequest.toEntity(passwordEncoder.encode(signUpRequest.getPassword())));
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public User findUserById(String id) {
         return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
@@ -43,6 +45,11 @@ public class UserFacade {
     public User currentUser() {
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
         return findUserById(id);
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public User currentUser(SocketIOClient client) {
+        return findUserById(SocketUtil.getUserId(client));
     }
 
 }
