@@ -38,9 +38,10 @@ public enum ErrorCode {
     INTERVAL_SERVER_ERROR("서버 오류 입니다.", 500),
 
 
-    // TYPE
+    // CHAT
     DUPLICATE_CHATTING_ROOM("이미 존재하는 채팅방 입니다.", 400),
     CHATTING_ROOM_NOT_FOUND("채팅방이 존재하지 않습니다.", 404),
+    INVALID_USER("유효하지 않은 사용자 입니다.", 400),
     ;
 
     private final String msg;
