@@ -1,4 +1,4 @@
-package com.project.findme.infrastructure.coolsms.property;
+package com.project.findme.infrastructure.coolsms.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
