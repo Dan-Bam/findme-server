@@ -2,6 +2,7 @@ package com.project.findme.global.error.response;
 
 import com.project.findme.global.error.type.ErrorCode;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

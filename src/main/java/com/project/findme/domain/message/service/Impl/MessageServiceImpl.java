@@ -56,10 +56,10 @@ public class MessageServiceImpl implements MessageService {
     @Transactional(rollbackFor = Exception.class)
     public void checkAuthKey(CheckAuthKeyRequest checkAuthKeyRequest) {
         MessageAuth messageAuth = messageAuthRepository.findById(checkAuthKeyRequest.getPhoneNumber())
-                .orElseThrow(() -> new PhoneNumberNotFound("핸드폰 번호를 찾을 수 없습니다."));
+                .orElseThrow(PhoneNumberNotFound::new);
 
         if(!messageAuth.getAuthKey().equals(checkAuthKeyRequest.getAuthKey())) {
-            throw new AuthKeyNotMatchException("인증키가 일치 하지 않습니다.");
+            throw new AuthKeyNotMatchException();
         }
     }
 

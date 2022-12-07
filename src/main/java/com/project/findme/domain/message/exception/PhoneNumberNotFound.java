@@ -1,15 +1,14 @@
 package com.project.findme.domain.message.exception;
 
+import com.project.findme.global.error.exception.FindmeException;
 import com.project.findme.global.error.type.ErrorCode;
 import lombok.Getter;
 
 @Getter
-public class PhoneNumberNotFound extends RuntimeException {
+public class PhoneNumberNotFound extends FindmeException {
 
-    private final ErrorCode errorCode;
-
-    public PhoneNumberNotFound(String message) {
-        super(message);
-        this.errorCode = ErrorCode.PHONE_NUMBER_NOT_FOUND;
+    public PhoneNumberNotFound() {
+        super(ErrorCode.PHONE_NUMBER_NOT_FOUND);
     }
+
 }

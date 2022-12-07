@@ -26,7 +26,7 @@ public class WebSocketJwtHandler {
         String token = client.getHandshakeData().getHttpHeaders().get("Authorization");
         Authentication authentication = jwtTokenProvider.authentication(token);
         socketIOClientMap.put(authentication.getName(), client);
-        client.set(ClientProperty.USER_KEY,authentication.getName());
+        client.set(ClientProperty.USER_KEY, authentication.getName());
         log.info("Connected : " + client.getSessionId() + ", " + authentication.getName());
     }
 
